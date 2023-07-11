@@ -16,13 +16,13 @@ export const StyledRoot = styled('div')({
 export const StyledBox = styled(Box)(({ theme }) => ({
     backgroundColor: '#CDCDCD',
     borderRadius: 10,
-    padding: theme.spacing(8),  // Padding inside the box
+    padding: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: 700,
     height: 300,
-    gap: theme.spacing(2),  // Space between elements in the box
+    gap: theme.spacing(2),
   }));
   
 export const StyledInputField = styled(Box)(({ theme }) => ({
