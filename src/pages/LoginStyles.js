@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 
 export const StyledRoot = styled('div')({
     height: '100vh',
-    backgroundImage: 'url(/images/bg.jpg)',
+    backgroundImage: 'url(/images/uom.jpg)',
     backgroundSize: 'cover',
     backgroundOpacity: 0.5,
     display: 'flex',
