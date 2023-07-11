@@ -1,6 +1,6 @@
 import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 
 export const StyledRoot = styled('div')({
@@ -43,18 +43,17 @@ export const StyledLabel = styled(Typography)(({ theme }) => ({
     fontSize: 20,
   }));
   
-export const StyledTextField = styled(TextField)(({ theme }) => ({
-    '& .MuiInputBase-input': {
-      color: 'black',
-    },
-    '& .MuiInputBase-root': {
-      backgroundColor: 'white',
-    },
-    flex: 1,
-    [theme.breakpoints.down('md')]: {
-      width: '100%',
-    },
-  }));
+export const StyledSelect = styled(Select)(({ theme }) => ({
+  '& .MuiSelect-select': {
+    color: 'black',
+    backgroundColor: 'white',
+    paddingLeft: '10px',
+  },
+  flex: 1,
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+  },
+}));
   
 export const StyledButtonBox = styled(Box)({
     display: 'flex',
