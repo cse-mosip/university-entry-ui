@@ -3,38 +3,46 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
+    {
+        field: 'id',
+        headerName: 'Id',
+        flex: 90
+    },
+  { 
+    field: 'index', 
+    headerName: 'Index', 
+    flex: 90 },
   {
-    field: 'firstName',
-    headerName: 'First name',
-    width: 150,
-    editable: true,
+    field: 'gateNo',
+    headerName: 'Gate No',
+    flex: 150
   },
   {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
-    editable: true,
+    field: 'in',
+    headerName: 'IN',
+    flex: 150
   },
   {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 110,
-    editable: true,
+    field: 'faculty',
+    headerName: 'Faculty',
+    flex: 110
+  },
+  {
+    field: 'batch',
+    headerName: 'Batch',
+    flex: 110
   }
 ];
 
 const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+  {id:1, index: '190647X', gateNo: 1, in: '09:20  12/07/2023', faculty: "Eng.", batch: '19 batch'},
+  {id:2, index: '190377T', gateNo: 2, in: '10:20  10/07/2023', faculty: "Eng.", batch: '19 batch'},
+  {id:3, index: '190705B', gateNo: 1, in: '08:20  12/07/2023', faculty: "Eng.", batch: '19 batch'},
+  {id:4, index: '190064G', gateNo: 3, in: '07:20  11/07/2023', faculty: "Eng.", batch: '19 batch'},
+  {id:5, index: '190545H', gateNo: 2, in: '06:20  12/07/2023', faculty: "Eng.", batch: '19 batch'},
+  {id:6, index: '190242C', gateNo: 2, in: '10:30  02/07/2023', faculty: "Eng.", batch: '19 batch'},
+  {id:7, index: '190653L', gateNo: 3, in: '07:20  01/07/2023', faculty: "Eng.", batch: '19 batch'},
+  {id:8, index: '190649T', gateNo: 1, in: '11:20  12/07/2023', faculty: "Eng.", batch: '19 batch'}
 ];
 
 
