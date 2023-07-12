@@ -11,7 +11,7 @@ function Home() {
         left: 0,
         width: '100%',
         height: '100%',
-        backgroundImage: `url(${process.env.PUBLIC_URL}/images/uom.jpg)`,
+        backgroundImage: `url(${process.env.PUBLIC_URL}/images/uom.png)`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
