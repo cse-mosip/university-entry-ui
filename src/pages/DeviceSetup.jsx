@@ -15,9 +15,9 @@ const DeviceSetup = () => {
         <StyledInputField>
           <StyledLabel variant="body1">Device</StyledLabel>
           <StyledSelect variant="outlined">
-            <MenuItem value="user1">User 1</MenuItem>
-            <MenuItem value="user2">User 2</MenuItem>
-            <MenuItem value="user3">User 3</MenuItem>
+            <MenuItem value="user1">Device 1</MenuItem>
+            <MenuItem value="user2">Device 2</MenuItem>
+            <MenuItem value="user3">Device 3</MenuItem>
           </StyledSelect>
         </StyledInputField>
         <StyledButtonBox>
