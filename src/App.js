@@ -11,7 +11,7 @@ import TopBar from './components/topBar';
 function App() {
 	return (
 		<>
-			<TopBar/>
+			<TopBar />
 			<BrowserRouter>
 				<Routes>
 					<Route element={<Login />} path='/login' />
