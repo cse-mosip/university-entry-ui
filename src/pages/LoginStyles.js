@@ -18,19 +18,19 @@ export const StyledRoot = styled('div')({
     bottom: 0,
     backgroundImage: 'url(/images/uom.jpg)',
     backgroundSize: 'cover',
-    opacity: 0.7,
+    opacity: 0.9,
     zIndex: -1,
   }
 });
   
 export const StyledBox = styled(Box)(({ theme }) => ({
-  backgroundColor: '#CDCDCD',
+  backgroundColor: '#DEDEDE',
   borderRadius: 10,
-  padding: theme.spacing(8),
+  padding: theme.spacing(6),
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  width: 700,
+  width: 600,
   gap: theme.spacing(2),
 }));
   
@@ -50,7 +50,7 @@ export const StyledInputField = styled(Box)(({ theme }) => ({
 export const StyledLabel = styled(Typography)(({ theme }) => ({
   width: 100,
   marginRight: theme.spacing(2),
-  fontSize: 20,
+  fontSize: 18,
 }));
   
 export const StyledTextField = styled(TextField)(({ theme }) => ({

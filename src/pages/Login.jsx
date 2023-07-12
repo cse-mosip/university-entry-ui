@@ -8,7 +8,7 @@ const Login = () => {
   return (
     <StyledRoot>
       <StyledBox>
-        <Typography variant="h5" sx={{ color: '#198754', fontWeight: 700, marginBottom: '30px' }}>
+        <Typography variant="h5" sx={{ color: '#198754', fontWeight: 700, marginBottom: '20px' }}>
           Login to Your Account
         </Typography>
         <StyledInputField>
