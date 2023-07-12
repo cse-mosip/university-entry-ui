@@ -7,11 +7,12 @@ import RadioGroup from "@mui/material/RadioGroup";
 import TextField from "@mui/material/TextField";
 
 export const StyledRoot = styled("div")({
-  height: "100vh",
+  height: "auto",
 //   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   backgroundColor: "#F6F9FF",
+  paddingBottom: "50px",
 });
 
 export const StyledBox = styled(Box)(({ theme }) => ({
