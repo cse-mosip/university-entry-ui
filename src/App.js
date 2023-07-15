@@ -15,12 +15,12 @@ function App() {
 			<TopBar />
 			<BrowserRouter>
 				<Routes>
-					<Route element={<Login />} path='/login' />
 					<Route element={<DeviceSetup />} path='/device-setup' />
 					<Route element={<RouteAuthMiddleware role={'role'}><GuestRegistration /></RouteAuthMiddleware>} path='guest-registration' />
-					<Route element={<RouteAuthMiddleware role={'role'}><AdminView /></RouteAuthMiddleware>} path='admin' />
-          <Route element={<StudentCard/>} path='/stud'/>
-					<Route element={<Home />} path='/' />
+					<Route element={<RouteAuthMiddleware role={'role'}><AdminView /></RouteAuthMiddleware>} path='entry-management' />
+					<Route element={<StudentCard isOpen={true} />} path='/stu' />
+					<Route element={<Home />} path='/home' />
+					<Route element={<Login />} path='/' />
 				</Routes>
 			</BrowserRouter>
 		</>

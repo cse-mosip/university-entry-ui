@@ -59,23 +59,23 @@ const rows = [
 function AdminView() {
 	return (
 		<div className='container'>
-			<Box sx={{ marginX: '70px', marginY: '20px', paddingX: '20px', paddingY: '10px', background: '#D9D9D9', borderRadius: '10px' }}>
+			<Box sx={{ marginX: '300px', marginY: '20px', paddingX: '20px', paddingY: '10px', background: '#D9D9D9', borderRadius: '10px' }}>
 				<Grid container rowSpacing={2} columnSpacing={5} >
-					<Grid item xs={6}>
+					<Grid item xs={10}>
 						<Box sx={{ fontWeight: 'bolder', fontSize: '22px' }}>Date</Box>
 					</Grid>
-					<Grid item xs={3}>
+					{/* <Grid item xs={3}>
 						<Box sx={{ fontWeight: 'bolder', fontSize: '22px' }}>Faculty</Box>
 					</Grid>
 					<Grid item xs={2}>
 						<Box sx={{ fontWeight: 'bolder', fontSize: '22px' }}>Batch</Box>
-					</Grid>
-					<Grid item xs={1}>
+					</Grid> */}
+					<Grid item xs={2}>
 						<Box>
 							<Button fullWidth size="small" variant="contained" sx={{backgroundColor: '#4154F1'}}>Filter</Button>
 						</Box>
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={10}>
 						<Box sx={{ display: 'flex', gap: '30px' }}>
 							<LocalizationProvider dateAdapter={AdapterMoment}>
 								<Box sx={{ display: 'flex', gap: '10px' }}>
@@ -89,7 +89,7 @@ function AdminView() {
 							</LocalizationProvider>
 						</Box>
 					</Grid>
-					<Grid item xs={3}>
+					{/* <Grid item xs={3}>
 						<Box>
 							<FormControl fullWidth size="small">
 								<Select>
@@ -110,8 +110,8 @@ function AdminView() {
 								</Select>
 							</FormControl>
 						</Box>
-					</Grid>
-					<Grid item xs={1}>
+					</Grid> */}
+					<Grid item xs={2}>
 						<Box>
 							<Button fullWidth size="small" variant="outlined">Clear</Button>
 						</Box>

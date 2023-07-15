@@ -1,22 +1,30 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StudentModal from '../components/studentModal';
 
-const StudentCard = () => {
+const StudentCard = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
+  // const handleModalOpen = () => {
+  //   setModalOpen(true);
+  // };
 
   const handleModalClose = () => {
-    setModalOpen(false);
+    console.log('calling close')
+    setTimeout(() => {
+      setModalOpen(false);
+    }, 2000);
+  
   };
+
+  useEffect(() => {
+    setModalOpen(props.isOpen);
+    handleModalClose();
+  }, []);
 
   return (
     <div>
-      <button onClick={handleModalOpen}>Open Modal</button>
-      <StudentModal open={modalOpen} onClose={handleModalClose} />
+      <StudentModal open={modalOpen}  onClose={() => setModalOpen(false)}/>
     </div>
   );
 };
