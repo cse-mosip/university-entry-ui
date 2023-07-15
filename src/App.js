@@ -10,14 +10,18 @@ import TopBar from './components/topBar';
 
 function App() {
 	return (
-		<BrowserRouter>
-			<Routes>
-				<Route element={<Login/>} path='/login'/>
-				<Route element={<RouteAuthMiddleware role={'role'}><GuestRegistration/></RouteAuthMiddleware>} path='guest-registration'/>
-				<Route element={<RouteAuthMiddleware role={'role'}><AdminView/></RouteAuthMiddleware>} path='/admin'/>
-				<Route element={<Home/>} path='/'/>
-			</Routes>
-		</BrowserRouter>
+		<>
+			<TopBar />
+			<BrowserRouter>
+				<Routes>
+					<Route element={<Login />} path='/login' />
+					<Route element={<DeviceSetup />} path='/device-setup' />
+					<Route element={<RouteAuthMiddleware role={'role'}><GuestRegistration /></RouteAuthMiddleware>} path='guest-registration' />
+					<Route element={<RouteAuthMiddleware role={'role'}><AdminView /></RouteAuthMiddleware>} path='admin' />
+					<Route element={<Home />} path='/' />
+				</Routes>
+			</BrowserRouter>
+		</>
 	);
 }
 
