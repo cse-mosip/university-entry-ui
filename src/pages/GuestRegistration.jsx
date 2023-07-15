@@ -3,6 +3,8 @@ import { Grid, Typography } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import {useFormik} from "formik"
+import * as Yup from 'yup';
 
 import {
   StyledRoot,
@@ -15,12 +17,44 @@ import {
   StyledButtonBox
 } from "./GusetRegistrationStyles";
 
+
+const validationSchema = Yup.object({
+  name: Yup.string().required('Name is required').matches(/^[A-Za-z\s]+$/, 'Invalid Name'),
+  mobile: Yup.string().required('Phone Number is required').matches(/^(\+94|0)\d{9}$/, 'Invalid phone number'),
+  nic: Yup.string().required('NIC is required').matches(/^(\d{9}V|\d{12})$/, 'Invalid NIC'),
+  iName: Yup.string().required('Inviter Name is required').matches(/^[A-Za-z\s]+$/, 'Invalid Name'),
+  indexNo: Yup.string().required('Index is required').matches(/^\d{6}[a-zA-Z]$/, 'Invalid index number'),
+});
+
 function GuestRegistration() {
-  const [title, setTitle] = React.useState("Mr.");
-  const [gender, setGender] = React.useState("male");
-  const handleChange = (event) => {
-    setGender(event.target.value);
+
+  const guestFormik = useFormik({
+    initialValues: {
+      title: 'Mr.',
+      name: '',
+      mobile: '',
+      nic: '',
+      gender: 'male',
+      invitorTitle: 'Mr.',
+      iName: '',
+      indexNo: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values, {resetForm}) => {
+      console.log(values);
+      // call api
+      resetForm();
+    }
+  });
+
+  const handleTitleChange = (event) => {
+    guestFormik.setFieldValue('title', event.target.value);
   };
+
+  const handleInvitorTitleChange = (event) => {
+    guestFormik.setFieldValue('invitorTitle', event.target.value);
+  };
+
   return (
     <StyledRoot>
       <Typography
@@ -42,7 +76,7 @@ function GuestRegistration() {
           </Grid>
 
           <Grid item xs={2}>
-            <StyledSelect variant="outlined" value={title}>
+            <StyledSelect variant="outlined" value={guestFormik.values.title} onChange={handleTitleChange}>
               <MenuItem value="Mr.">Mr.</MenuItem>
               <MenuItem value="Mrs.">Mrs.</MenuItem>
               <MenuItem value="Miss.">Miss.</MenuItem>
@@ -50,7 +84,7 @@ function GuestRegistration() {
           </Grid>
 
           <Grid item xs={6}>
-            <StyledTextField variant="outlined" />
+            <StyledTextField variant="outlined" name = "name" id="name" type="text" value={guestFormik.values.name} onChange={guestFormik.handleChange} onBlur={guestFormik.handleBlur} error={Boolean(guestFormik.touched.name && guestFormik.errors.name)} helperText={guestFormik.touched.name && guestFormik.errors.name}/>
           </Grid>
 
           <Grid item xs={4}>
@@ -58,7 +92,7 @@ function GuestRegistration() {
           </Grid>
 
           <Grid item xs={8}>
-            <StyledTextField variant="outlined" />
+            <StyledTextField variant="outlined" name = "mobile" id="mobile" type="tel" value={guestFormik.mobile} onChange={guestFormik.handleChange} onBlur={guestFormik.handleBlur} error={Boolean(guestFormik.touched.mobile && guestFormik.errors.mobile)} helperText={guestFormik.touched.mobile && guestFormik.errors.mobile}/>
           </Grid>
 
           <Grid item xs={4}>
@@ -66,7 +100,7 @@ function GuestRegistration() {
           </Grid>
 
           <Grid item xs={8}>
-            <StyledTextField variant="outlined" />
+            <StyledTextField variant="outlined" name = "nic" id="nic" type="text" value={guestFormik.nic} onChange={guestFormik.handleChange} onBlur={guestFormik.handleBlur} error={Boolean(guestFormik.touched.nic && guestFormik.errors.nic)} helperText={guestFormik.touched.nic && guestFormik.errors.nic}/>
           </Grid>
 
           <Grid item xs={4}>
@@ -77,8 +111,9 @@ function GuestRegistration() {
             <StyledRadioGroup
               aria-label="gender"
               name="gender"
-              value={gender}
-              onChange={handleChange}
+              value={guestFormik.values.gender}
+              onChange={guestFormik.handleChange}
+              onBlur={guestFormik.handleBlur}
             >
               <FormControlLabel
                 value="male"
@@ -106,7 +141,7 @@ function GuestRegistration() {
           </Grid>
 
           <Grid item xs={2}>
-            <StyledSelect variant="outlined" value={title}>
+            <StyledSelect variant="outlined" value={guestFormik.values.invitorTitle} onChange={handleInvitorTitleChange}>
               <MenuItem value="Mr.">Mr.</MenuItem>
               <MenuItem value="Mrs.">Mrs.</MenuItem>
               <MenuItem value="Miss.">Miss.</MenuItem>
@@ -114,19 +149,19 @@ function GuestRegistration() {
           </Grid>
 
           <Grid item xs={6}>
-            <StyledTextField variant="outlined" />
+            <StyledTextField variant="outlined" name = "iName" id="iName" type="text" value={guestFormik.values.iName} onChange={guestFormik.handleChange} onBlur={guestFormik.handleBlur} error={Boolean(guestFormik.touched.iName && guestFormik.errors.iName)} helperText={guestFormik.touched.iName && guestFormik.errors.iName}/>
           </Grid>
 
           <Grid item xs={4}>
             <StyledLabel>Index</StyledLabel>
           </Grid>
           <Grid item xs={8}>
-            <StyledTextField variant="outlined" />
+            <StyledTextField variant="outlined" name = "indexNo" id="indexNo" type="text" value={guestFormik.values.indexNo} onChange={guestFormik.handleChange} onBlur={guestFormik.handleBlur} error={Boolean(guestFormik.touched.indexNo && guestFormik.errors.indexNo)} helperText={guestFormik.touched.indexNo && guestFormik.errors.indexNo}/>
           </Grid>
         </Grid>
 
         <StyledButtonBox>
-        <Button variant="contained" sx={{ bgcolor: '#4154F1', '&:hover': { backgroundColor: '#3249C9' }, padding: '8px 25px', fontSize: '16px' }}>
+        <Button onClick={guestFormik.handleSubmit} variant="contained" sx={{ bgcolor: '#4154F1', '&:hover': { backgroundColor: '#3249C9' }, padding: '8px 25px', fontSize: '16px' }}>
             Proceed
           </Button>
           <Button variant="contained" sx={{ bgcolor: '#DC3545', '&:hover': { backgroundColor: '#C02942' }, padding: '8px 25px', fontSize: '16px' }}>
