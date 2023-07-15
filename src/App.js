@@ -5,6 +5,8 @@ import GuestRegistration from './pages/GuestRegistration';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import AdminView from './pages/AdminView';
+import DeviceSetup from './pages/DeviceSetup';
+import TopBar from './components/topBar';
 
 function App() {
 	return (

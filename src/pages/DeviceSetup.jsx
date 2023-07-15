@@ -1,27 +1,28 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { StyledRoot, StyledBox, StyledInputField, StyledLabel, StyledTextField, StyledButtonBox } from './LoginStyles';
+import MenuItem from '@mui/material/MenuItem';
+import { StyledRoot, StyledBox, StyledInputField, StyledLabel, StyledSelect, StyledButtonBox } from './DeviceSetupStyles';
 
 
-const Login = () => {
+const DeviceSetup = () => {
   return (
     <StyledRoot>
       <StyledBox>
-        <Typography variant="h5" sx={{ color: '#198754', fontWeight: 700, marginBottom: '20px' }}>
-          Login to Your Account
+        <Typography variant="h5" sx={{ color: '#198754', fontWeight: 700, marginBottom: '10px' }}>
+          Select System Setup
         </Typography>
         <StyledInputField>
-          <StyledLabel variant="body1">Username</StyledLabel>
-          <StyledTextField variant="outlined" />
-        </StyledInputField>
-        <StyledInputField>
-          <StyledLabel variant="body1">Password</StyledLabel>
-          <StyledTextField variant="outlined" type="password" />
+          <StyledLabel variant="body1">Device</StyledLabel>
+          <StyledSelect variant="outlined">
+            <MenuItem value="user1">Device 1</MenuItem>
+            <MenuItem value="user2">Device 2</MenuItem>
+            <MenuItem value="user3">Device 3</MenuItem>
+          </StyledSelect>
         </StyledInputField>
         <StyledButtonBox>
           <Button variant="contained" sx={{ bgcolor: '#4154F1', '&:hover': { backgroundColor: '#3249C9' }, padding: '8px 25px', fontSize: '16px' }}>
-            Login
+            Proceed
           </Button>
           <Button variant="contained" sx={{ bgcolor: '#DC3545', '&:hover': { backgroundColor: '#C02942' }, padding: '8px 25px', fontSize: '16px' }}>
             Cancel
@@ -32,4 +33,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default DeviceSetup;
