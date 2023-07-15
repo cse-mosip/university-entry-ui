@@ -3,9 +3,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import RouteAuthMiddleware from './middlewares/RouteAuthMiddleware';
 import GuestRegistration from './pages/GuestRegistration';
 import Login from './pages/Login';
-import Home from './pages/Home';
 import DeviceSetup from './pages/DeviceSetup';
 import TopBar from './components/topBar';
+import Home from './pages/Home';
 
 
 function App() {
