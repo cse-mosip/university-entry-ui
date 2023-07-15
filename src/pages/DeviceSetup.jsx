@@ -20,6 +20,14 @@ const DeviceSetup = () => {
             <MenuItem value="user3">Device 3</MenuItem>
           </StyledSelect>
         </StyledInputField>
+        <StyledInputField>
+          <StyledLabel variant="body1">Gate</StyledLabel>
+          <StyledSelect variant="outlined">
+            <MenuItem value="user1">Gate 1</MenuItem>
+            <MenuItem value="user2">Gate 2</MenuItem>
+            <MenuItem value="user3">Gate 3</MenuItem>
+          </StyledSelect>
+        </StyledInputField>
         <StyledButtonBox>
           <Button variant="contained" sx={{ bgcolor: '#4154F1', '&:hover': { backgroundColor: '#3249C9' }, padding: '8px 25px', fontSize: '16px' }}>
             Proceed
