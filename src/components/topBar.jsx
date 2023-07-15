@@ -14,7 +14,7 @@ const StyledAppBar = styled(AppBar)({
 });
 
 const Logo = styled('img')({
-  height:'50px',
+  height: '50px',
   marginRight: '16px',
 });
 

@@ -26,16 +26,49 @@ export default function SideNavBar() {
 
     setState({ ...state, [anchor]: open });
   };
+  const menuItems = ["Home", "Guest Registration", "Logout"]
+  // const list = (anchor) => (
+  //   <Box
+  //     sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+  //     role="presentation"
+  //   //   onClick={toggleDrawer(anchor, false)}
+  //   //   onKeyDown={toggleDrawer(anchor, false)}
+  //   >
+  //     <List>
+  //       {menuItems.map((text, index) => (
+  //         <ListItem key={text} disablePadding>
+  //           <ListItemButton>
+  //             {/* <ListItemIcon>
+  //               {index % 2 === 0 ? <InboxIcon /> : <InboxIcon />}
+  //             </ListItemIcon> */}
+  //             <ListItemText primary={text} />
+  //           </ListItemButton>
+  //         </ListItem>
+  //       ))}
+  //     </List>
+  //     <Divider />
+  //   </Box>
+  // );
 
-  const list = (anchor) => (
+  return (
+    // <div>
+    //   {["left"].map((anchor) => (
+    //     <React.Fragment key={anchor}>
+    //       {/* <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button> */}
+    //       <Drawer anchor={anchor} open={state[anchor]}>
+    //         {list(anchor)}
+    //       </Drawer>
+    //     </React.Fragment>
+    //   ))}
+    // </div>
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      sx={{ width: '250px', background:'white',height:'100%' }}
       role="presentation"
-      //   onClick={toggleDrawer(anchor, false)}
-      //   onKeyDown={toggleDrawer(anchor, false)}
+    //   onClick={toggleDrawer(anchor, false)}
+    //   onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {["Home", "Guest Registration", "Logout"].map((text, index) => (
+        {menuItems.map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               {/* <ListItemIcon>
@@ -48,18 +81,5 @@ export default function SideNavBar() {
       </List>
       <Divider />
     </Box>
-  );
-
-  return (
-    <div>
-      {["left"].map((anchor) => (
-        <React.Fragment key={anchor}>
-          {/* <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button> */}
-          <Drawer anchor={anchor} open={state[anchor]}>
-            {list(anchor)}
-          </Drawer>
-        </React.Fragment>
-      ))}
-    </div>
   );
 }
