@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
@@ -6,6 +6,10 @@ import { StyledRoot, StyledBox, StyledInputField, StyledLabel, StyledSelect, Sty
 
 
 const DeviceSetup = () => {
+
+  const [devices, setDevices] = useState(["Device 1", "Device 2", "Device 3"]);
+  const [gates, setGates] = useState(["Gate 1", "Gate 2", "Gate 3"]);
+
   return (
     <StyledRoot>
       <StyledBox>
@@ -13,19 +17,19 @@ const DeviceSetup = () => {
           Select System Setup
         </Typography>
         <StyledInputField>
-          <StyledLabel variant="body1">Device</StyledLabel>
+          <StyledLabel variant="body1">Gate</StyledLabel>
           <StyledSelect variant="outlined">
-            <MenuItem value="user1">Device 1</MenuItem>
-            <MenuItem value="user2">Device 2</MenuItem>
-            <MenuItem value="user3">Device 3</MenuItem>
+            {gates.map((gate, index) => (
+              <MenuItem key={index} value={`user${index+1}`}>{gate}</MenuItem>
+            ))}
           </StyledSelect>
         </StyledInputField>
         <StyledInputField>
-          <StyledLabel variant="body1">Gate</StyledLabel>
+          <StyledLabel variant="body1">Device</StyledLabel>
           <StyledSelect variant="outlined">
-            <MenuItem value="user1">Gate 1</MenuItem>
-            <MenuItem value="user2">Gate 2</MenuItem>
-            <MenuItem value="user3">Gate 3</MenuItem>
+            {devices.map((device, index) => (
+              <MenuItem key={index} value={`user${index+1}`}>{device}</MenuItem>
+            ))}
           </StyledSelect>
         </StyledInputField>
         <StyledButtonBox>
