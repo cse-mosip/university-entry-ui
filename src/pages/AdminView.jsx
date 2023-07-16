@@ -54,6 +54,9 @@ const rows = [
 	{ id: 8, index: '190649T', gateNo: 1, in: '11:20  12/07/2023', faculty: "Eng.", batch: '19 batch' }
 ];
 
+const handlePaginationChange = (model, details) => {
+	console.log(model, details);
+}
 
 
 function AdminView() {
@@ -132,6 +135,8 @@ function AdminView() {
 					pageSizeOptions={[5]}
 					checkboxSelection
 					disableRowSelectionOnClick
+					disableColumnFilter={true}
+					onPaginationModelChange={handlePaginationChange}
 				/>
 			</Box>
 		</div>
