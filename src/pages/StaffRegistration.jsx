@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, Typography } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import {useFormik} from "formik"
 import * as Yup from 'yup';
 
@@ -11,6 +12,8 @@ import {
   StyledLabel,
   StyledTextField,
   StyledSelect,
+  StyledRadioGroup,
+  StyledRadio,
   StyledButtonBox
 } from "./StaffRegistrationStyles";
 
