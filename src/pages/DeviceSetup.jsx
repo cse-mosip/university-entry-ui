@@ -58,7 +58,9 @@ const DeviceSetup = () => {
           Device Setup
         </Typography>
         <StyledInputField>
-          <StyledLabel variant="body1">Gate</StyledLabel>
+          <StyledLabel variant="body1">
+            Gate
+          </StyledLabel>
           <StyledSelect variant="outlined" value={selectedGate} onChange={handleGateChange}>
             {gates.map((gate, index) => (
               <MenuItem key={index} value={gate}>{gate}</MenuItem>
@@ -66,7 +68,9 @@ const DeviceSetup = () => {
           </StyledSelect>
         </StyledInputField>
         <StyledInputField>
-          <StyledLabel variant="body1">Device</StyledLabel>
+          <StyledLabel variant="body1">
+            Device
+          </StyledLabel>
           <StyledSelect variant="outlined" value={selectedDevice} onChange={handleDeviceChange}>
             {devices.map((device, index) => (
               <MenuItem key={index} value={device}>{device}</MenuItem>
@@ -76,13 +80,16 @@ const DeviceSetup = () => {
         <StyledButtonBox>
           <Button
             variant="contained"
-            sx={{ bgcolor: '#012970', '&:hover': { backgroundColor: '#3249C9' }, padding: '8px 25px', fontSize: '16px' }}
+            sx={{ bgcolor: '#012970', '&:hover': { backgroundColor: '#011538' }, padding: '8px 25px', fontSize: '16px' }}
             disabled={isProcessDisabled}
             onClick={handleProceed}
           >
             Proceed
           </Button>
-          <Button variant="contained" sx={{ bgcolor: '#DC3545', '&:hover': { backgroundColor: '#C02942' }, padding: '8px 25px', fontSize: '16px' }}>
+          <Button
+            variant="contained"
+            sx={{ bgcolor: '#DC3545', '&:hover': { backgroundColor: '#C02942' }, padding: '8px 25px', fontSize: '16px' }}
+          >
             Cancel
           </Button>
         </StyledButtonBox>

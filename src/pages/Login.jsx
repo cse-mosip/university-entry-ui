@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { StyledRoot, StyledBox, StyledInputField, StyledLabel, StyledTextField, StyledButtonBox } from './LoginStyles';
+import { StyledRoot, StyledBox, StyledInputField, StyledLabel, StyledTextField, StyledButtonBox, StyledButton, StyledTypography } from './LoginStyles';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -32,11 +31,13 @@ const Login = () => {
   return (
     <StyledRoot>
       <StyledBox>
-        <Typography variant="h5" sx={{ color: '#012970', fontWeight: 700, marginBottom: '20px' }}>
+        <StyledTypography variant="h5">
           Login to Your Account
-        </Typography>
+        </StyledTypography>
         <StyledInputField>
-          <StyledLabel variant="body1">Username</StyledLabel>
+          <StyledLabel variant="body1">
+            Username
+          </StyledLabel>
           <StyledTextField 
             variant="outlined" 
             value={username}
@@ -44,7 +45,9 @@ const Login = () => {
           />
         </StyledInputField>
         <StyledInputField>
-          <StyledLabel variant="body1">Password</StyledLabel>
+          <StyledLabel variant="body1">
+            Password
+          </StyledLabel>
           <StyledTextField 
             variant="outlined" 
             type="password" 
@@ -53,14 +56,15 @@ const Login = () => {
           />
         </StyledInputField>
         <StyledButtonBox>
-          <Button 
+          <StyledButton 
             variant="contained" 
-            sx={{ bgcolor: '#4154F1', '&:hover': { backgroundColor: '#012970' }, padding: '8px 25px', fontSize: '16px' }}
+            sx={{ bgcolor: '#012970', '&:hover': { bgcolor: '#011538' }}}
             disabled={isLoginDisabled}
-            onClick={handleLogin}
+            // onClick={handleLogin}
+            onSubmit={handleLogin}
           >
             Login
-          </Button>
+          </StyledButton>
         </StyledButtonBox>
       </StyledBox>
     </StyledRoot>

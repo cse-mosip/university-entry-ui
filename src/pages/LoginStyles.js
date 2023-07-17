@@ -2,6 +2,7 @@ import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 export const StyledRoot = styled('div')({
   display: 'flex',
@@ -69,3 +70,14 @@ export const StyledButtonBox = styled(Box)({
   marginTop: 'auto',
   width: '100%',
 });
+
+export const StyledButton = styled(Button)({
+  padding: '8px 25px', 
+  fontSize: '16px',
+})
+
+export const StyledTypography = styled(Typography)({
+  color: '#012970',
+  fontWeight: 700,
+  marginBottom: '20px'
+})
