@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  university-entry-ui:
+    build: .
+    container_name: university-entry-ui_c
+    ports:
+      - '8080:8080'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
