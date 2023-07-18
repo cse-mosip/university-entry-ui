@@ -8,6 +8,7 @@ import StudentCard from './pages/studentDetails';
 import AdminView from './pages/AdminView';
 import DeviceSetup from './pages/DeviceSetup';
 import TopBar from './components/topBar';
+import StudentView from './pages/StudentView';
 import SideNavBar from './components/SideNavBar/SideNavBar';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
 					<Route element={<DeviceSetup />} path='/device-setup' />
 					<Route element={<RouteAuthMiddleware role={'role'}><GuestRegistration /></RouteAuthMiddleware>} path='guest-registration' />
 					<Route element={<RouteAuthMiddleware role={'role'}><AdminView /></RouteAuthMiddleware>} path='entry-management' />
+					<Route element={<RouteAuthMiddleware role={'role'}><StudentView/></RouteAuthMiddleware>} path='student-records' />
 					<Route element={<StudentCard isOpen={true} />} path='/stu' />
 					<Route element={<Home role={'role'}/>} path='/home' />
 					<Route element={<Login role={'role'}/>} path='/' />
