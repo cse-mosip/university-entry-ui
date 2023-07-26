@@ -10,6 +10,7 @@ import DeviceSetup from './pages/DeviceSetup';
 import TopBar from './components/topBar';
 import StudentView from './pages/StudentView';
 import SideNavBar from './components/SideNavBar/SideNavBar';
+import GateRegistration from './pages/GateRegistration';
 
 function App() {
 	return (
@@ -26,6 +27,7 @@ function App() {
 					<Route element={<StudentCard isOpen={true} />} path='/stu' />
 					<Route element={<Home role={'role'}/>} path='/home' />
 					<Route element={<Login role={'role'}/>} path='/' />
+					<Route element={<GateRegistration />} path='/gate-register' />
 				</Routes>
 			</BrowserRouter>
 		</>
