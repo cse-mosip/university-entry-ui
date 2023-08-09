@@ -1,0 +1,36 @@
+trigger:
+  branches:
+    include:
+      - main # Change this to match your release branch name
+
+pool:
+  vmImage: "ubuntu-latest"
+variables:
+  ImageName: "mosipmoracse/university-entry-ui:$(Build.BuildId)" #set the repository name for your service
+
+stages:
+  - stage: Build
+    displayName: Build image
+    jobs:
+      - job: Build
+        displayName: Build and push Docker image
+        steps:
+          - task: Docker@1
+            inputs:
+              containerregistrytype: "Container Registry"
+              dockerRegistryEndpoint: "mosipmoracse"
+              command: "Build an image"
+              dockerFile: "./Dockerfile"
+              imageName: "$(ImageName)"
+              useDefaultContext: false
+              buildContext: "."
+            displayName: "Build the Docker image"
+
+          - task: Docker@1
+            inputs:
+              containerregistrytype: "Container Registry"
+              dockerRegistryEndpoint: "mosipmoracse"
+              command: "Push an image"
+              imageName: "$(ImageName)"
+            condition: succeeded()
+            displayName: "Push the Docker image to Dockerhub"
