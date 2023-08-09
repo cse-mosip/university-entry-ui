@@ -1,5 +1,5 @@
 import { getDetails } from "../services/adminViewService";
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import Grid from '@mui/material/Grid';
