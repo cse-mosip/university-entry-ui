@@ -9,6 +9,7 @@ import AdminView from "./pages/AdminView";
 import DeviceSetup from "./pages/DeviceSetup";
 import TopBar from "./components/topBar";
 import { ToastContainer, toast } from "react-toastify";
+import StaffRegistration from './pages/StaffRegistration';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           />
           <Route element={<StudentCard isOpen={true} />} path="/stu" />
           <Route element={<Home />} path="/home" />
+          <Route element={<RouteAuthMiddleware role={'role'}><StaffRegistration /></RouteAuthMiddleware>} path='staff-registration' />
           <Route element={<Login />} path="/" />
         </Routes>
       </BrowserRouter>
