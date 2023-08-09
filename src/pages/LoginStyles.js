@@ -2,25 +2,22 @@ import { styled } from '@mui/system';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 export const StyledRoot = styled('div')({
-  position: 'relative',
-  height: '100vh',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  "&::before": {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundImage: 'url(/images/uom.jpg)',
-    backgroundSize: 'cover',
-    opacity: 0.9,
-    zIndex: -1,
-  }
+  position: 'fixed',
+  top: '60px',
+  left: 0,
+  width: '100%',
+  height: '100%',
+  backgroundImage: `url(${process.env.PUBLIC_URL}/images/uom.png)`,
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'center',
+  zIndex: -1,
 });
   
 export const StyledBox = styled(Box)(({ theme }) => ({
@@ -73,3 +70,14 @@ export const StyledButtonBox = styled(Box)({
   marginTop: 'auto',
   width: '100%',
 });
+
+export const StyledButton = styled(Button)({
+  padding: '8px 25px', 
+  fontSize: '16px',
+})
+
+export const StyledTypography = styled(Typography)({
+  color: '#012970',
+  fontWeight: 700,
+  marginBottom: '20px'
+})

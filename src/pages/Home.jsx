@@ -10,11 +10,11 @@ function Home() {
   return (
     <Box
       sx={{
-        position: 'fixed',
-        top: '60px',
+        position: "fixed",
+        top: "60px",
         left: 0,
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
         backgroundImage: `url(${process.env.PUBLIC_URL}/images/uom.png)`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
@@ -65,7 +65,7 @@ function Home() {
         </Box>
       </div>
     </Box>
-  )
+  );
 }
 
-export default Home
+export default Home;
