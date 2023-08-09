@@ -1,3 +1,4 @@
+import { getDetails } from "../services/adminViewService";
 import React, { useState } from 'react'
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
@@ -31,16 +32,17 @@ const columns = [
     headerName: "IN",
     flex: 150,
   },
-  {
-    field: "faculty",
-    headerName: "Faculty",
-    flex: 110,
-  },
-  {
-    field: "batch",
-    headerName: "Batch",
-    flex: 110,
-  },
+  // {
+  // 	field: 'faculty',
+  // 	headerName: 'Faculty',
+  // 	flex: 110
+  // },
+  // {
+  // 	field: 'batch',
+  // 	headerName: 'Batch',
+  // 	flex: 110
+  // }
+
 ];
 
 const rows = [
@@ -110,9 +112,8 @@ const rows = [
   },
 ];
 
-
 function AdminView() {
-
+  const [data, setData] = useState([]);
 	const [indexNo, setIndexNo] = useState(null);
 
 	const handlePaginationChange = (model, details) => {
@@ -122,6 +123,21 @@ function AdminView() {
 	const handleIndexNoChange = (value) => {
 		setIndexNo(value.target.value);
 	}
+  
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await getDetails();
+        console.log(response.data);
+        setData(response.data);
+      } catch (error) {
+        setError(error);
+      }
+    }
+    fetchData();
+  }, []);
 	
 	return (
 		<div className='container'>
