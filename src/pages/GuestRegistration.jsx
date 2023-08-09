@@ -6,6 +6,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   StyledRoot,
@@ -62,12 +64,36 @@ function GuestRegistration() {
         if (response.status == 200) {
           console.log("SUCCESSFULLY REGISTERED  ");
           resetForm();
+          toast.success('Successfully Registered', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+            progress: undefined,
+          })
           navigate("/home");
         } else {
           console.log(response.status);
+          toast.error('Error Occured', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+            progress: undefined,
+            });
         }
       } catch (error) {
         console.log(error);
+        toast.error( `${error.message}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+          });
       }
       // call api
       // resetForm();
@@ -226,9 +252,9 @@ function GuestRegistration() {
               value={guestFormik.values.invitorTitle}
               onChange={handleInvitorTitleChange}
             >
-              <MenuItem value="Mr.">Mr.</MenuItem>
-              <MenuItem value="Mrs.">Mrs.</MenuItem>
-              <MenuItem value="Miss.">Miss.</MenuItem>
+              <MenuItem value="MR">Mr.</MenuItem>
+              <MenuItem value="MRS"></MenuItem>
+              <MenuItem value="MISS">Miss.</MenuItem>
             </StyledSelect>
           </Grid>
 
