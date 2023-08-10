@@ -48,7 +48,12 @@ export function getForcePassword() {
 
 export function getUserRole() {
   const user = getCurrentUser()
+  try {
   return user.role;
+  }
+  catch (ex) {
+    return null;
+  }
 }
 
 
