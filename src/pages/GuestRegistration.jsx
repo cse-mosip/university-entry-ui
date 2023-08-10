@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, Typography, Box } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SideNavBar from "../components/SideNavBar/SideNavBar";
+import Modal from '@mui/material/Modal';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
 
 import {
   StyledRoot,
@@ -40,8 +43,26 @@ const validationSchema = Yup.object({
     .matches(/^\d{6}[a-zA-Z]$/, "Invalid index number"),
 });
 
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #808080',
+  borderRadius: 5,
+  boxShadow: 24,
+  p: 8,
+  color: '#0170D6',
+};
+
 function GuestRegistration() {
   const navigate = useNavigate();
+
+  const [modalView, setModalView] = useState(false);
+  const [fingerPrintData, setFingerPrintData] = useState(null);
+  const [isSumbitLoading, setSubmitLoading] = useState(false);
 
   const guestFormik = useFormik({
     initialValues: {
@@ -57,7 +78,8 @@ function GuestRegistration() {
       approver_id: "1",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {  // TODO: include fingerprint data to the endpoint data
+      setSubmitLoading(true);
       console.log(values);
       try {
         const response = await guestRegistrationService.registerGuest(values);
@@ -73,7 +95,7 @@ function GuestRegistration() {
             draggable: true,
             progress: undefined,
           });
-          navigate("/home");
+          // navigate("/home");
         } else {
           console.log(response.status);
           toast.error("Error Occured", {
@@ -98,7 +120,8 @@ function GuestRegistration() {
       }
       // call api
       // resetForm();
-    },
+      setModalView(false);
+    }
   });
 
   const handleTitleChange = (event) => {
@@ -109,244 +132,229 @@ function GuestRegistration() {
     guestFormik.setFieldValue("invitorTitle", event.target.value);
   };
 
+  const handleSubmit = () => {
+    setModalView(!modalView);
+  }
+
   return (
-    <div style={{ display: "flex", height: "100%" }}>
-      <SideNavBar />
-      <Box
-        sx={{
-          padding: "10px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          alignItems: "start",
-          height: "60%",
-          // margin: '0 0 0 250px'
-        }}
-      >
-        <StyledRoot>
-          <Typography
-            variant="h5"
-            sx={{
-              color: "#4154F1",
-              fontWeight: 700,
-              marginBottom: "30px",
-              paddingTop: "30px",
-              paddingLeft: "10%",
-            }}
-          >
-            Guest Registration Form
-          </Typography>
-          <StyledBox>
-            <Typography
-              variant="h5"
-              sx={{ color: "#198754", fontWeight: 700, marginBottom: "30px" }}
-            >
-              Guest Details
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <StyledLabel>Name</StyledLabel>
-              </Grid>
+    <>
 
-              <Grid item xs={2}>
-                <StyledSelect
-                  variant="outlined"
-                  value={guestFormik.values.title}
-                  onChange={handleTitleChange}
-                >
-                  <MenuItem value="MR">Mr.</MenuItem>
-                  <MenuItem value="MRS">Mrs.</MenuItem>
-                  <MenuItem value="MISS">Miss.</MenuItem>
-                </StyledSelect>
-              </Grid>
-
-              <Grid item xs={6}>
-                <StyledTextField
-                  variant="outlined"
-                  name="name"
-                  id="name"
-                  type="text"
-                  value={guestFormik.values.name}
-                  onChange={guestFormik.handleChange}
-                  onBlur={guestFormik.handleBlur}
-                  error={Boolean(
-                    guestFormik.touched.name && guestFormik.errors.name
-                  )}
-                  helperText={
-                    guestFormik.touched.name && guestFormik.errors.name
-                  }
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <StyledLabel>Phone Number</StyledLabel>
-              </Grid>
-
-              <Grid item xs={8}>
-                <StyledTextField
-                  variant="outlined"
-                  name="phone_number"
-                  id="phone_number"
-                  type="tel"
-                  value={guestFormik.phone_number}
-                  onChange={guestFormik.handleChange}
-                  onBlur={guestFormik.handleBlur}
-                  error={Boolean(
-                    guestFormik.touched.phone_number &&
-                      guestFormik.errors.phone_number
-                  )}
-                  helperText={
-                    guestFormik.touched.phone_number &&
-                    guestFormik.errors.phone_number
-                  }
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <StyledLabel>NIC</StyledLabel>
-              </Grid>
-
-              <Grid item xs={8}>
-                <StyledTextField
-                  variant="outlined"
-                  name="nic"
-                  id="nic"
-                  type="text"
-                  value={guestFormik.nic}
-                  onChange={guestFormik.handleChange}
-                  onBlur={guestFormik.handleBlur}
-                  error={Boolean(
-                    guestFormik.touched.nic && guestFormik.errors.nic
-                  )}
-                  helperText={guestFormik.touched.nic && guestFormik.errors.nic}
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <StyledLabel>Gender</StyledLabel>
-              </Grid>
-
-              <Grid item xs={8}>
-                <StyledRadioGroup
-                  aria-label="gender"
-                  name="gender"
-                  value={guestFormik.values.gender}
-                  onChange={guestFormik.handleChange}
-                  onBlur={guestFormik.handleBlur}
-                >
-                  <FormControlLabel
-                    value="MALE"
-                    control={<StyledRadio />}
-                    label="Male"
-                  />
-                  <FormControlLabel
-                    value="FEMALE"
-                    control={<StyledRadio />}
-                    label="Female"
-                  />
-                </StyledRadioGroup>
-              </Grid>
-            </Grid>
+      <div style={{ display: "flex", height: "100%" }}>
+        <SideNavBar />
+        <Box
+          sx={{
+            padding: "10px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "start",
+            height: "60%",
+            // margin: '0 0 0 250px'
+          }}
+        >
+          <StyledRoot>
             <Typography
               variant="h5"
               sx={{
-                color: "#198754",
+                color: "#4154F1",
                 fontWeight: 700,
                 marginBottom: "30px",
-                marginTop: "30px",
+                paddingTop: "30px",
+                paddingLeft: "10%",
               }}
             >
-              Inviter
+              Guest Registration Form
             </Typography>
+            <StyledBox>
+              <Typography
+                variant="h5"
+                sx={{ color: "#198754", fontWeight: 700, marginBottom: "30px" }}
+              >
+                Guest Details
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <StyledLabel>Name</StyledLabel>
+                </Grid>
 
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <StyledLabel>Name</StyledLabel>
+                <Grid item xs={2}>
+                  <StyledSelect
+                    variant="outlined"
+                    value={guestFormik.values.title}
+                    onChange={handleTitleChange}
+                  >
+                    <MenuItem value="MR">Mr.</MenuItem>
+                    <MenuItem value="MRS">Mrs.</MenuItem>
+                    <MenuItem value="MISS">Miss.</MenuItem>
+                  </StyledSelect>
+                </Grid>
+
+                <Grid item xs={6}>
+                  <StyledTextField
+                    variant="outlined"
+                    name="name"
+                    id="name"
+                    type="text"
+                    value={guestFormik.values.name}
+                    onChange={guestFormik.handleChange}
+                    onBlur={guestFormik.handleBlur}
+                    error={Boolean(
+                      guestFormik.touched.name && guestFormik.errors.name
+                    )}
+                    helperText={
+                      guestFormik.touched.name && guestFormik.errors.name
+                    }
+                  />
+                </Grid>
+
+                <Grid item xs={4}>
+                  <StyledLabel>Phone Number</StyledLabel>
+                </Grid>
+
+                <Grid item xs={8}>
+                  <StyledTextField
+                    variant="outlined"
+                    name="phone_number"
+                    id="phone_number"
+                    type="tel"
+                    value={guestFormik.phone_number}
+                    onChange={guestFormik.handleChange}
+                    onBlur={guestFormik.handleBlur}
+                    error={Boolean(
+                      guestFormik.touched.phone_number &&
+                      guestFormik.errors.phone_number
+                    )}
+                    helperText={
+                      guestFormik.touched.phone_number &&
+                      guestFormik.errors.phone_number
+                    }
+                  />
+                </Grid>
+
+                <Grid item xs={4}>
+                  <StyledLabel>NIC</StyledLabel>
+                </Grid>
+
+                <Grid item xs={8}>
+                  <StyledTextField
+                    variant="outlined"
+                    name="nic"
+                    id="nic"
+                    type="text"
+                    value={guestFormik.nic}
+                    onChange={guestFormik.handleChange}
+                    onBlur={guestFormik.handleBlur}
+                    error={Boolean(
+                      guestFormik.touched.nic && guestFormik.errors.nic
+                    )}
+                    helperText={guestFormik.touched.nic && guestFormik.errors.nic}
+                  />
+                </Grid>
+
+                <Grid item xs={4}>
+                  <StyledLabel>Gender</StyledLabel>
+                </Grid>
+
+                <Grid item xs={8}>
+                  <StyledRadioGroup
+                    aria-label="gender"
+                    name="gender"
+                    value={guestFormik.values.gender}
+                    onChange={guestFormik.handleChange}
+                    onBlur={guestFormik.handleBlur}
+                  >
+                    <FormControlLabel
+                      value="MALE"
+                      control={<StyledRadio />}
+                      label="Male"
+                    />
+                    <FormControlLabel
+                      value="FEMALE"
+                      control={<StyledRadio />}
+                      label="Female"
+                    />
+                  </StyledRadioGroup>
+                </Grid>
               </Grid>
-
-              <Grid item xs={2}>
-                <StyledSelect
-                  variant="outlined"
-                  value={guestFormik.values.invitorTitle}
-                  onChange={handleInvitorTitleChange}
+              <StyledButtonBox>
+                <Button
+                  onClick={handleSubmit}
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#4154F1",
+                    "&:hover": { backgroundColor: "#3249C9" },
+                    padding: "8px 25px",
+                    fontSize: "16px",
+                  }}
                 >
-                  <MenuItem value="MR">Mr.</MenuItem>
-                  <MenuItem value="MRS"></MenuItem>
-                  <MenuItem value="MISS">Miss.</MenuItem>
-                </StyledSelect>
-              </Grid>
-
-              <Grid item xs={6}>
-                <StyledTextField
-                  variant="outlined"
-                  name="iName"
-                  id="iName"
-                  type="text"
-                  value={guestFormik.values.iName}
-                  onChange={guestFormik.handleChange}
-                  onBlur={guestFormik.handleBlur}
-                  error={Boolean(
-                    guestFormik.touched.iName && guestFormik.errors.iName
-                  )}
-                  helperText={
-                    guestFormik.touched.iName && guestFormik.errors.iName
-                  }
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <StyledLabel>Index</StyledLabel>
-              </Grid>
-              <Grid item xs={8}>
-                <StyledTextField
-                  variant="outlined"
-                  name="inviter_index"
-                  id="inviter_index"
-                  type="text"
-                  value={guestFormik.values.inviter_index}
-                  onChange={guestFormik.handleChange}
-                  onBlur={guestFormik.handleBlur}
-                  error={Boolean(
-                    guestFormik.touched.inviter_index &&
-                      guestFormik.errors.inviter_index
-                  )}
-                  helperText={
-                    guestFormik.touched.inviter_index &&
-                    guestFormik.errors.inviter_index
-                  }
-                />
-              </Grid>
-            </Grid>
-
-            <StyledButtonBox>
-              <Button
-                onClick={guestFormik.handleSubmit}
-                variant="contained"
-                sx={{
-                  bgcolor: "#4154F1",
-                  "&:hover": { backgroundColor: "#3249C9" },
-                  padding: "8px 25px",
-                  fontSize: "16px",
-                }}
-              >
-                Proceed
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  bgcolor: "#DC3545",
-                  "&:hover": { backgroundColor: "#C02942" },
-                  padding: "8px 25px",
-                  fontSize: "16px",
-                }}
-              >
-                Cancel
-              </Button>
-            </StyledButtonBox>
-          </StyledBox>
-        </StyledRoot>
-      </Box>
-    </div>
+                  Proceed
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#DC3545",
+                    "&:hover": { backgroundColor: "#C02942" },
+                    padding: "8px 25px",
+                    fontSize: "16px",
+                  }}
+                >
+                  Cancel
+                </Button>
+              </StyledButtonBox>
+            </StyledBox>
+          </StyledRoot>
+        </Box>
+      </div>
+      <Modal
+        open={modalView}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{ backgroundColor: "rgba(128, 128, 128, 0.8)" }}
+      >
+        <Box sx={modalStyle}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 5 }}>
+            <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+              Please take the Invitee's fingerprint
+            </Typography>
+            <img
+              src={'/images/fp_3.png'}
+              alt="fingerprint image"
+              style={{ margin: "10%", alignItems: "center" }}
+            />
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+            <Button
+              variant="contained"
+              onClick={() => setModalView(!modalView)}
+              sx={{
+                bgcolor: "#DC3545",
+                "&:hover": { backgroundColor: "#C02942" },
+                padding: "8px 25px",
+                fontSize: "16px",
+              }}
+            >
+              Cancel
+            </Button>
+            <LoadingButton
+              loading={isSumbitLoading}
+              loadingPosition="start"
+              startIcon={isSumbitLoading? <SaveIcon/> : null}
+              disabled={fingerPrintData === null}
+              onClick={guestFormik.onSubmit}
+              variant="contained"
+              sx={{
+                bgcolor: "#4154F1",
+                "&:hover": { backgroundColor: "#3249C9" },
+                padding: "8px 25px",
+                fontSize: "16px",
+              }}
+            >
+              Submit
+            </LoadingButton>
+          </Box>
+        </Box>
+      </Modal>
+    </>
   );
 }
 
