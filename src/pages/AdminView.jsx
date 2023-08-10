@@ -11,11 +11,11 @@ import TextField from "@mui/material/TextField";
 import SideNavBar from "../components/SideNavBar/AdminViewSideNavBar";
 
 const columns = [
-  {
-    field: "id",
-    headerName: "Id",
-    flex: 90,
-  },
+  // {
+  //   field: "id",
+  //   headerName: "Id",
+  //   flex: 90,
+  // },
   {
     field: "index",
     headerName: "Index",
@@ -247,7 +247,7 @@ function AdminView() {
                 },
               }}
               pageSizeOptions={[5]}
-              checkboxSelection
+              
               disableRowSelectionOnClick
               disableColumnFilter={true}
               onPaginationModelChange={handlePaginationChange}
