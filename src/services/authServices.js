@@ -2,11 +2,11 @@ import jwtDecode from 'jwt-decode';
 import http from './httpServices';
 
 export async function login(email, password) {
-
+    const apiEndpoint = '/auth/login';
   const response = await http.post(
     apiEndpoint,
     {
-      username: email,
+      email: email,
       password: password
     }
   )
@@ -26,6 +26,7 @@ export function getCurrentUser() {
   try {
     const jwt = localStorage.getItem('access_token')
     const user = jwtDecode(jwt)
+    console.log(user);
     return user
   } catch (ex) {
     return null
@@ -47,7 +48,7 @@ export function getForcePassword() {
 
 export function getUserRole() {
   const user = getCurrentUser()
-  return user.authorities[0]
+  return user.role;
 }
 
 
