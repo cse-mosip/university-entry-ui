@@ -20,30 +20,12 @@ export default function SideNavBar() {
 
   const notAllowedPaths = ["/", "/device-setup"];
 
-  const adminItems = [
-    {
-      text: "Staff Registration",
-      icon: <PersonIcon />,
-      route: "/guest-registration",
-    },
-    {
-      text: "Logout",
-      icon: <LogoutIcon />,
-      route: "/",
-    },
-  ];
-
-  const studentsItems = [
-    { text: "University Entrance History", icon: <HomeIcon />, route: "/home" },
-    { text: "Logout", icon: <LogoutIcon />, route: "/" },
-  ];
-
   const menuItems = [
     { text: "Home", icon: <HomeIcon />, route: "/home" },
     {
-      text: "Guest Registration",
+      text: "University Entrance History",
       icon: <PersonIcon />,
-      route: "/guest-registration",
+      route: "/student-records",
     },
     // {
     //   text: "Staff Registration",

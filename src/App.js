@@ -10,6 +10,7 @@ import DeviceSetup from "./pages/DeviceSetup";
 import TopBar from "./components/topBar";
 import { ToastContainer, toast } from "react-toastify";
 import StaffRegistration from './pages/StaffRegistration';
+import StudentView from './pages/StudentView';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route element={<Home />} path="/home" />
           <Route element={<RouteAuthMiddleware role={'role'}><StaffRegistration /></RouteAuthMiddleware>} path='staff-registration' />
           <Route element={<Login />} path="/" />
+		  <Route element={<RouteAuthMiddleware role={'role'}><StudentView/></RouteAuthMiddleware>} path='student-records' />
         </Routes>
       </BrowserRouter>
       <ToastContainer />
