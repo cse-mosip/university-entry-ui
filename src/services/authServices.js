@@ -59,6 +59,5 @@ export default {
   logout,
   getJwt,
   getUserRole,
-  setForcePassword,
   getForcePassword,
 }
