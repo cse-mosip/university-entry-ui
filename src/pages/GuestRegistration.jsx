@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Typography, Box } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
@@ -12,6 +12,9 @@ import SideNavBar from "../components/SideNavBar/SideNavBar";
 import Modal from '@mui/material/Modal';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 import {
   StyledRoot,
@@ -54,15 +57,24 @@ const modalStyle = {
   borderRadius: 5,
   boxShadow: 24,
   p: 8,
-  color: '#0170D6',
+  color: '#0170D6'
 };
 
-function GuestRegistration() {
-  const navigate = useNavigate();
+function GuestRegistration(props) {
 
+  const navigate = useNavigate();
   const [modalView, setModalView] = useState(false);
   const [fingerPrintData, setFingerPrintData] = useState(null);
   const [isSumbitLoading, setSubmitLoading] = useState(false);
+  const [isInviteeUpdate, setIsInviteeUpdate] = useState(false);
+
+  const { inviteeData, setInviteeActive } = props;
+
+  // to get invitee fingerprint data
+  useEffect(() => {
+    setIsInviteeUpdate(true);
+    setFingerPrintData(inviteeData);
+  }, [inviteeData])
 
   const guestFormik = useFormik({
     initialValues: {
@@ -121,6 +133,8 @@ function GuestRegistration() {
       // call api
       // resetForm();
       setModalView(false);
+      setInviteeActive(false);
+      setIsInviteeUpdate(false);
     }
   });
 
@@ -133,7 +147,15 @@ function GuestRegistration() {
   };
 
   const handleSubmit = () => {
+    setIsInviteeUpdate(false);
+    setInviteeActive(true);
     setModalView(!modalView);
+  }
+
+  const handleModalCancel = () => {
+    setModalView(false);
+    setInviteeActive(false);
+    setIsInviteeUpdate(false);
   }
 
   return (
@@ -312,7 +334,7 @@ function GuestRegistration() {
         sx={{ backgroundColor: "rgba(128, 128, 128, 0.8)" }}
       >
         <Box sx={modalStyle}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 5 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
               Please take the Invitee's fingerprint
             </Typography>
@@ -322,10 +344,25 @@ function GuestRegistration() {
               style={{ margin: "10%", alignItems: "center" }}
             />
           </Box>
+          <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 5 }}>
+          {!isInviteeUpdate && <CircularProgress/>}
+          {isInviteeUpdate && inviteeData !== null &&
+            <Typography variant="h5" component="h2" sx={{ color: 'green', gap: 1 }}>
+              <CheckCircleOutlineIcon color="success" fontSize="large" />
+              Successfull
+          </Typography>
+          }
+          { isInviteeUpdate && inviteeData === null &&
+            <Typography variant="h5" component="h2" sx={{ color: 'red', gap: 1 }}>
+              <CheckCircleOutlineIcon color="error" fontSize="large" />
+              Failed
+            </Typography>
+          }
+          </Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
             <Button
               variant="contained"
-              onClick={() => setModalView(!modalView)}
+              onClick={handleModalCancel}
               sx={{
                 bgcolor: "#DC3545",
                 "&:hover": { backgroundColor: "#C02942" },
@@ -338,7 +375,7 @@ function GuestRegistration() {
             <LoadingButton
               loading={isSumbitLoading}
               loadingPosition="start"
-              startIcon={isSumbitLoading? <SaveIcon/> : null}
+              startIcon={isSumbitLoading ? <SaveIcon /> : null}
               disabled={fingerPrintData === null}
               onClick={guestFormik.onSubmit}
               variant="contained"
