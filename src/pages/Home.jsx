@@ -22,7 +22,7 @@ function Home() {
       }}
     >
       <div style={{ display: "flex", height: "100%" }}>
-        <SideNavBar />
+        <SideNavBar role={"SECURITY"} />
         <Box
           sx={{
             padding: "10px",

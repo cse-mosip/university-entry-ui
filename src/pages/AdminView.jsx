@@ -8,7 +8,7 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import SideNavBar from "../components/SideNavBar/AdminViewSideNavBar";
+import SideNavBar from "../components/SideNavBar/SideNavBar";
 
 const columns = [
   {
@@ -140,7 +140,7 @@ function AdminView() {
   return (
     <div className="container">
       <div style={{ display: "flex", height: "100%" }}>
-        <SideNavBar />
+        <SideNavBar role={"ADMIN"} />
         <Box
           sx={{
             padding: "10px",

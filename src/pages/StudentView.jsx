@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import StudentDateFilter from "../components/studentDateFilter";
-import SideNavBar from "../components/SideNavBar/StudentViewSideNav";
+import SideNavBar from "../components/SideNavBar/SideNavBar";
 
 const columns = [
   {
@@ -87,7 +87,7 @@ const StudentView = () => {
         height: "100%",
       }}
     >
-      <SideNavBar />
+      <SideNavBar role={"STUDENT"} />
       <Box>
         <StudentDateFilter />
         <Box sx={{ width: "100%" }}>

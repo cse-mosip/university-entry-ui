@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import SideNavBar from "../components/SideNavBar/AdminViewSideNavBar";
+import SideNavBar from "../components/SideNavBar/SideNavBar";
 import {
   StyledRoot,
   StyledBox,
