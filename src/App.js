@@ -59,7 +59,7 @@ function App() {
           <Route element={<RouteAuthMiddleware role={"role"}><AdminView /></RouteAuthMiddleware>} path="entry-management" />
           <Route element={<RouteAuthMiddleware role={'role'}><StaffRegistration /></RouteAuthMiddleware>} path='staff-registration' />
           <Route element={<RouteAuthMiddleware role={'role'}><StudentView /></RouteAuthMiddleware>} path='student-records' />
-          <Route element={<GateRegistration />} path='/gate-register' />
+          <Route element={<GateRegistration />} path='/gate-registration' />
           {/* <Route element={<StudentCard isOpen={true} />} path="/stu" /> */}
           <Route element={<Home />} path="/home" />
           <Route element={<Login />} path="/" />

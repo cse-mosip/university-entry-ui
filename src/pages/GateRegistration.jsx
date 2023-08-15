@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { StyledRoot, StyledBox, StyledInputField, StyledLabel, StyledTextField, StyledButtonBox } from './LoginStyles';
+import { registerGate } from '../services/gateRegistrationService';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 
 const GateRegistration = () => {
+  const [gateId, setGateId] = useState("");
+  const [location, setLocation] = useState("");
+
+  const handleSubmit = async () => {
+    try {
+      const response = await registerGate({ name: gateId, location: location });
+      if (response.data.success) {
+        toast.success("Gate registration successfull");
+      } else {
+        toast.error("Gate registration failed");
+      }
+    } catch (e) {
+      toast.error("Gate registration failed");
+    }
+  }
   return (
     <StyledRoot>
       <StyledBox>
@@ -13,19 +31,21 @@ const GateRegistration = () => {
         </Typography>
         <StyledInputField>
           <StyledLabel variant="body1">Gate ID</StyledLabel>
-          <StyledTextField variant="outlined" />
+          <StyledTextField variant="outlined" value={gateId}  onChange={(e) => setGateId(e.target.value)}/>
         </StyledInputField>
         <StyledInputField>
-          <StyledLabel variant="body1">Description</StyledLabel>
-          <StyledTextField variant="outlined" multiline maxRows={4} />
+          <StyledLabel variant="body1">Location</StyledLabel>
+          <StyledTextField variant="outlined" multiline maxRows={4} value={location} onChange={(e) => setLocation(e.target.value)} />
         </StyledInputField>
         <StyledButtonBox>
-          <Button variant="contained" sx={{ bgcolor: '#4154F1', '&:hover': { backgroundColor: '#3249C9' }, padding: '8px 25px', fontSize: '16px' }}>
+          <Button onClick={handleSubmit} variant="contained" sx={{ bgcolor: '#4154F1', '&:hover': { backgroundColor: '#3249C9' }, padding: '8px 25px', fontSize: '16px' }}>
             Register
           </Button>
-          <Button variant="contained" sx={{ bgcolor: '#DC3545', '&:hover': { backgroundColor: '#C02942' }, padding: '8px 25px', fontSize: '16px' }}>
-            Cancel
-          </Button>
+          <Link to={'/home'}>
+            <Button variant="contained" sx={{ bgcolor: '#DC3545', '&:hover': { backgroundColor: '#C02942' }, padding: '8px 25px', fontSize: '16px' }}>
+              Cancel
+            </Button>
+          </Link>
         </StyledButtonBox>
       </StyledBox>
     </StyledRoot>
