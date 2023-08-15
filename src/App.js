@@ -13,19 +13,20 @@ import StaffRegistration from './pages/StaffRegistration';
 import StudentView from './pages/StudentView';
 import GateRegistration from './pages/GateRegistration';
 
+
 function App() {
   return (
     <>
       <TopBar />
       <BrowserRouter>
         <Routes>
-          <Route element={<DeviceSetup />} path="/device-setup" />
-          <Route element={<RouteAuthMiddleware role={"role"}><GuestRegistration /></RouteAuthMiddleware>} path="guest-registration"/>
-          <Route element={<RouteAuthMiddleware role={"role"}><AdminView /></RouteAuthMiddleware>} path="entry-management"/>
-          <Route element={<RouteAuthMiddleware role={'role'}><StaffRegistration /></RouteAuthMiddleware>} path='staff-registration' />
-		      <Route element={<RouteAuthMiddleware role={'role'}><StudentView/></RouteAuthMiddleware>} path='student-records' />
-          <Route element={<GateRegistration />} path='/gate-register' />
-          <Route element={<StudentCard isOpen={true} />} path="/stu" />
+          <Route element={<RouteAuthMiddleware role={"SECURITY"}><DeviceSetup /></RouteAuthMiddleware>} path="/device-setup" />
+          <Route element={<RouteAuthMiddleware role={"SECURITY"}><GuestRegistration /></RouteAuthMiddleware>} path="guest-registration"/>
+          <Route element={<RouteAuthMiddleware role={"ADMIN"}><AdminView /></RouteAuthMiddleware>} path="entry-management"/>
+          {/* <Route element={<RouteAuthMiddleware role={"ADMIN"}><StaffRegistration /></RouteAuthMiddleware>} path='staff-registration' /> */}
+		  <Route element={<RouteAuthMiddleware role={"STUDENT"}><StudentView/></RouteAuthMiddleware>} path='student-records' />
+          <Route element={<RouteAuthMiddleware role={"ADMIN"}><GateRegistration /></RouteAuthMiddleware>} path='/gate-register' />
+          {/* <Route element={<StudentCard isOpen={true} />} path="/stu" /> */}
           <Route element={<Home />} path="/home" />
           <Route element={<Login />} path="/" />
         </Routes>
