@@ -55,7 +55,7 @@ const DeviceSetup = () => {
     <StyledRoot>
       <StyledBox>
         <Typography variant="h5" sx={{ color: '#012970', fontWeight: 700, marginBottom: '10px' }}>
-          Device Setup
+          Gate Selection
         </Typography>
         <StyledInputField>
           <StyledLabel variant="body1">
@@ -67,7 +67,7 @@ const DeviceSetup = () => {
             ))}
           </StyledSelect>
         </StyledInputField>
-        <StyledInputField>
+        {/* <StyledInputField>
           <StyledLabel variant="body1">
             Device
           </StyledLabel>
@@ -76,7 +76,7 @@ const DeviceSetup = () => {
               <MenuItem key={index} value={device}>{device}</MenuItem>
             ))}
           </StyledSelect>
-        </StyledInputField>
+        </StyledInputField> */}
         <StyledButtonBox>
           <Button
             variant="contained"
@@ -86,12 +86,12 @@ const DeviceSetup = () => {
           >
             Proceed
           </Button>
-          <Button
+          {/* <Button
             variant="contained"
             sx={{ bgcolor: '#DC3545', '&:hover': { backgroundColor: '#C02942' }, padding: '8px 25px', fontSize: '16px' }}
           >
             Cancel
-          </Button>
+          </Button> */}
         </StyledButtonBox>
       </StyledBox>
     </StyledRoot>

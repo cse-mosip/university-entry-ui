@@ -20,11 +20,11 @@ const StudentCard = (props) => {
   useEffect(() => {
     setModalOpen(props.isOpen);
     handleModalClose();
-  }, []);
+  }, [props.isOpen]);
 
   return (
     <div style={{ display: "flex", height: "100%" }}>
-      <SideNavBar />
+      {/* <SideNavBar /> */}
       <Box
         sx={{
           padding: "10px",
