@@ -1,5 +1,6 @@
-import React from 'react';
-import {useFormik} from "formik"
+import React,{  useEffect }  from 'react';
+import {useFormik} from "formik";
+
 import * as Yup from 'yup';
 import { 
   StyledRoot, 
@@ -11,6 +12,10 @@ import {
   StyledButton, 
   StyledTypography 
 } from './LoginStyles';
+import { useNavigate } from "react-router-dom";
+import authService from "../services/authServices";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const validationSchema = Yup.object({
   username: Yup.string().required('Username is required').matches(/^[A-Za-z\s]+$/, 'Invalid username'),
@@ -18,19 +23,70 @@ const validationSchema = Yup.object({
 });
 
 const Login = () => {
+  const navigate = useNavigate();
+  const user  = authService.getCurrentUser();
+  useEffect(() => {
+    if(user){
+      navigate('/home');
+    }
+  }, []);
+
 
   const loginFormik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    validationSchema: validationSchema,
-    onSubmit: (values, {resetForm}) => {
+    // validationSchema: validationSchema,
+    onSubmit: async (values, {resetForm}) => {
       console.log(values);
       // call api
-      resetForm();
+
+      try {
+        const response = await authService.login(values.username, values.password);
+        console.log(response);
+        if (response.status === 200) {
+          console.log("Login success");
+          authService.loginWithJwt(response.data.access_token, response.data.refresh_token);
+          resetForm();
+          toast.success('Successfully Logged', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+            progress: undefined,
+          })
+         
+          navigate('/home');
+
+        }
+        else{
+          toast.error('Invalid Credintials', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+            progress: undefined,
+            });
+        }
+        
+      } catch (error) {
+        console.log(error);
+        toast.error('Invalid Credintials', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+          });
+
+      }
     }
   });
+
 
   return (
     <StyledRoot>
