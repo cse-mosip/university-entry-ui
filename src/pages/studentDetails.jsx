@@ -24,7 +24,7 @@ const StudentCard = (props) => {
 
   return (
     <div style={{ display: "flex", height: "100%" }}>
-      <SideNavBar />
+      {/* <SideNavBar /> */}
       <Box
         sx={{
           padding: "10px",

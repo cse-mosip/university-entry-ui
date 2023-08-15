@@ -14,12 +14,14 @@ import StudentView from './pages/StudentView';
 import GateRegistration from './pages/GateRegistration';
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { authenticateFingerprint } from "./services/authServices";
 
 
 function App() {
 
   const [isInviteeActive, setIsInviteeActive] = useState(false);
   const [inviteeFPData, setInviteeFPData] = useState(null);
+  const [isNotify, setIsNotify] = useState(false);
   const socket = io(process.env.SOCKET_URL);
   
   useEffect(() => {
@@ -31,9 +33,12 @@ function App() {
     if (!fingerprintData.success) {
       toast.error("Try again with fingerprint!");
     } else {
-      // TODO: handle authentication
       if (isInviteeActive) {
         setInviteeFPData(fingerprintData.data);
+      } else {
+        const response = await authenticateFingerprint(fingerprintData.data);
+        console.log(response, 'fingerprint authentication');
+        // if (response.)
       }
     }
     requestFingerprint();
@@ -47,6 +52,7 @@ function App() {
     <>
       <TopBar />
       <BrowserRouter>
+        <StudentCard isOpen={isNotify} />
         <Routes>
           <Route element={<DeviceSetup />} path="/device-setup" />
           <Route element={<RouteAuthMiddleware role={"role"}><GuestRegistration inviteeData={inviteeFPData} setInviteeActive={setIsInviteeActive} /></RouteAuthMiddleware>} path="guest-registration" />
@@ -54,7 +60,7 @@ function App() {
           <Route element={<RouteAuthMiddleware role={'role'}><StaffRegistration /></RouteAuthMiddleware>} path='staff-registration' />
           <Route element={<RouteAuthMiddleware role={'role'}><StudentView /></RouteAuthMiddleware>} path='student-records' />
           <Route element={<GateRegistration />} path='/gate-register' />
-          <Route element={<StudentCard isOpen={true} />} path="/stu" />
+          {/* <Route element={<StudentCard isOpen={true} />} path="/stu" /> */}
           <Route element={<Home />} path="/home" />
           <Route element={<Login />} path="/" />
         </Routes>
