@@ -20,7 +20,7 @@ const StudentCard = (props) => {
   useEffect(() => {
     setModalOpen(props.isOpen);
     handleModalClose();
-  }, []);
+  }, [props.isOpen]);
 
   return (
     <div style={{ display: "flex", height: "100%" }}>

@@ -8,7 +8,7 @@ import StudentCard from "./pages/studentDetails";
 import AdminView from "./pages/AdminView";
 import DeviceSetup from "./pages/DeviceSetup";
 import TopBar from "./components/topBar";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import StaffRegistration from './pages/StaffRegistration';
 import StudentView from './pages/StudentView';
 import GateRegistration from './pages/GateRegistration';
@@ -19,29 +19,41 @@ import { authenticateFingerprint } from "./services/authServices";
 
 function App() {
 
+  
   const [isInviteeActive, setIsInviteeActive] = useState(false);
   const [inviteeFPData, setInviteeFPData] = useState(null);
   const [isNotify, setIsNotify] = useState(false);
-  const socket = io(process.env.SOCKET_URL);
+  
+  // console.log('socket url', process.env.SOCKET_URL);
+  // const socket = io(process.env.SOCKET_URL);
+  const location = window.location.pathname;
+  const socket = io("http://localhost:7291");
   
   useEffect(() => {
+    socket.on("connect", handleWSconnection);
     socket.on("fingerprintData", handleFingerprintData);
-  }, [])
+  }, []);
+
+  const handleWSconnection = () => {
+    requestFingerprint();
+    console.log('connection is succeeded')
+  }
 
   const handleFingerprintData = async (fingerprintData) => {
-    console.log("fingerprint-data: ", fingerprintData);
     if (!fingerprintData.success) {
-      toast.error("Try again with fingerprint!");
+      console.log("fingerprint not successfull");
     } else {
       if (isInviteeActive) {
         setInviteeFPData(fingerprintData.data);
       } else {
-        const response = await authenticateFingerprint(fingerprintData.data);
-        console.log(response, 'fingerprint authentication');
+        console.log("fingerprint-data: -----------------------------", fingerprintData);
+        setIsNotify(true);
+        // const response = await authenticateFingerprint(fingerprintData.data);
+        // console.log(response, 'fingerprint authentication');
         // if (response.)
       }
-    }
-    requestFingerprint();
+    } 
+    // requestFingerprint();
   }
 
   const requestFingerprint = () => {
