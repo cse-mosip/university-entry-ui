@@ -47,7 +47,7 @@ const CustomButton = styled(Button)({
   marginRight: 20,
 });
 
-const StudentModal = ({ open, onClose }) => {
+const StudentModal = ({ open, onClose, userData }) => {
   const handleButtonClick = () => {
     onClose();
   };
@@ -60,10 +60,10 @@ const StudentModal = ({ open, onClose }) => {
         />
         <TextContainer>
           <NameLabel variant="h6">
-            Student Name
+            userData.name
           </NameLabel>
           <IndexLabel variant="body2">
-            Index Number
+            userData.index
           </IndexLabel>
         </TextContainer>
         <CustomButton variant="contained" onClick={handleButtonClick}>
