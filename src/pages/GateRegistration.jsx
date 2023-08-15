@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { StyledRoot, StyledBox, StyledInputField, StyledLabel, StyledTextField, StyledButtonBox } from './LoginStyles';
-import { registerGate } from '../services/gateRegistrationService';
+import { registerGate } from '../services/gateService';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 

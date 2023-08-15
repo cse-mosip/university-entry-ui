@@ -19,16 +19,17 @@ import { authenticateFingerprint } from "./services/authServices";
 
 function App() {
 
-  
+
   const [isInviteeActive, setIsInviteeActive] = useState(false);
   const [inviteeFPData, setInviteeFPData] = useState(null);
   const [isNotify, setIsNotify] = useState(false);
-  
+
   // console.log('socket url', process.env.SOCKET_URL);
   // const socket = io(process.env.SOCKET_URL);
+
   const location = window.location.pathname;
   const socket = io("http://localhost:7291");
-  
+
   useEffect(() => {
     socket.on("connect", handleWSconnection);
     socket.on("fingerprintData", handleFingerprintData);
@@ -40,20 +41,28 @@ function App() {
   }
 
   const handleFingerprintData = async (fingerprintData) => {
-    if (!fingerprintData.success) {
+    if (!fingerprintData) {
       console.log("fingerprint not successfull");
     } else {
       if (isInviteeActive) {
         setInviteeFPData(fingerprintData.data);
       } else {
         console.log("fingerprint-data: -----------------------------", fingerprintData);
-        setIsNotify(true);
-        // const response = await authenticateFingerprint(fingerprintData.data);
-        // console.log(response, 'fingerprint authentication');
+        const data = {
+          "entryPlaceId": localStorage.getItem('gate_id'),
+          "bioSign": fingerprintData.data
+        }
+        try {
+          const response = await authenticateFingerprint(fingerprintData.data);
+          setIsNotify(true);
+          console.log(response, 'fingerprint authentication');
+        } catch (e) {
+          console.log(e);
+        }
         // if (response.)
       }
-    } 
-    // requestFingerprint();
+    }
+    requestFingerprint();
   }
 
   const requestFingerprint = () => {

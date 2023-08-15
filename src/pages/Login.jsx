@@ -1,16 +1,16 @@
-import React,{  useEffect }  from 'react';
-import {useFormik} from "formik";
+import React, { useEffect } from 'react';
+import { useFormik } from "formik";
 
 import * as Yup from 'yup';
-import { 
-  StyledRoot, 
-  StyledBox, 
-  StyledInputField, 
-  StyledLabel, 
-  StyledTextField, 
-  StyledButtonBox, 
-  StyledButton, 
-  StyledTypography 
+import {
+  StyledRoot,
+  StyledBox,
+  StyledInputField,
+  StyledLabel,
+  StyledTextField,
+  StyledButtonBox,
+  StyledButton,
+  StyledTypography
 } from './LoginStyles';
 import { useNavigate } from "react-router-dom";
 import authService from "../services/authServices";
@@ -24,9 +24,9 @@ const validationSchema = Yup.object({
 
 const Login = () => {
   const navigate = useNavigate();
-  const user  = authService.getCurrentUser();
+  const user = authService.getCurrentUser();
   useEffect(() => {
-    if(user){
+    if (user) {
       navigate('/home');
     }
   }, []);
@@ -38,7 +38,7 @@ const Login = () => {
       password: '',
     },
     // validationSchema: validationSchema,
-    onSubmit: async (values, {resetForm}) => {
+    onSubmit: async (values, { resetForm }) => {
       console.log(values);
       // call api
 
@@ -57,11 +57,11 @@ const Login = () => {
             draggable: true,
             progress: undefined,
           })
-         
-          navigate('/home');
+          
+          handleRoleBaseRedirect();
 
         }
-        else{
+        else {
           toast.error('Invalid Credintials', {
             position: "top-right",
             autoClose: 5000,
@@ -69,9 +69,9 @@ const Login = () => {
             closeOnClick: true,
             draggable: true,
             progress: undefined,
-            });
+          });
         }
-        
+
       } catch (error) {
         console.log(error);
         toast.error('Invalid Credintials', {
@@ -81,11 +81,19 @@ const Login = () => {
           closeOnClick: true,
           draggable: true,
           progress: undefined,
-          });
+        });
 
       }
     }
   });
+
+  const handleRoleBaseRedirect = () => {
+    if (authService.getUserRole() === 'SECURITY') {
+      navigate('/device-setup');
+    } else {
+      navigate('/home');
+    }
+  }
 
 
   return (
@@ -98,15 +106,15 @@ const Login = () => {
           <StyledLabel variant="body1">
             Username
           </StyledLabel>
-          <StyledTextField 
-            variant="outlined" 
-            name = "username" 
-            id="username" 
-            type="text" 
-            value={loginFormik.username} 
-            onChange={loginFormik.handleChange} 
-            onBlur={loginFormik.handleBlur} 
-            error={Boolean(loginFormik.touched.username && loginFormik.errors.username)} 
+          <StyledTextField
+            variant="outlined"
+            name="username"
+            id="username"
+            type="text"
+            value={loginFormik.username}
+            onChange={loginFormik.handleChange}
+            onBlur={loginFormik.handleBlur}
+            error={Boolean(loginFormik.touched.username && loginFormik.errors.username)}
             helperText={loginFormik.touched.username && loginFormik.errors.username}
           />
         </StyledInputField>
@@ -114,22 +122,22 @@ const Login = () => {
           <StyledLabel variant="body1">
             Password
           </StyledLabel>
-          <StyledTextField 
-            variant="outlined" 
-            name = "password" 
-            id="password" 
-            type="password" 
-            value={loginFormik.password} 
-            onChange={loginFormik.handleChange} 
-            onBlur={loginFormik.handleBlur} 
-            error={Boolean(loginFormik.touched.password && loginFormik.errors.password)} 
+          <StyledTextField
+            variant="outlined"
+            name="password"
+            id="password"
+            type="password"
+            value={loginFormik.password}
+            onChange={loginFormik.handleChange}
+            onBlur={loginFormik.handleBlur}
+            error={Boolean(loginFormik.touched.password && loginFormik.errors.password)}
             helperText={loginFormik.touched.password && loginFormik.errors.password}
           />
         </StyledInputField>
         <StyledButtonBox>
-          <StyledButton 
-            variant="contained" 
-            sx={{ bgcolor: '#012970', '&:hover': { bgcolor: '#011538' }}}
+          <StyledButton
+            variant="contained"
+            sx={{ bgcolor: '#012970', '&:hover': { bgcolor: '#011538' } }}
             onClick={loginFormik.handleSubmit}
           >
             Login
