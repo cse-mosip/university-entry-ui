@@ -92,7 +92,7 @@ function GuestRegistration(props) {
     validationSchema: validationSchema,
     onSubmit: async (values, { resetForm }) => {  // TODO: include fingerprint data to the endpoint data
       setSubmitLoading(true);
-      console.log(values);
+      values.bio_sign = fingerPrintData;
       try {
         const response = await guestRegistrationService.registerGuest(values);
 

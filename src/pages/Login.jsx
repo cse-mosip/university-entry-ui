@@ -89,7 +89,7 @@ const Login = () => {
 
   const handleRoleBaseRedirect = () => {
     if (authService.getUserRole() === 'SECURITY') {
-      navigate('/device-setup');
+      navigate('/gate-setup');
     } else {
       navigate('/home');
     }

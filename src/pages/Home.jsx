@@ -48,7 +48,7 @@ function Home() {
           >
             University<br /> Entrance Identity <br />System
           </Typography>
-          <Button
+          {/* <Button
             variant="contained"
             sx={{
               color: 'white',
@@ -61,7 +61,7 @@ function Home() {
           >
             Device Setup
 
-          </Button>
+          </Button> */}
         </Box>
       </div>
     </Box>
