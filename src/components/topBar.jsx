@@ -7,6 +7,7 @@ import { styled } from '@mui/system';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import Button from '@mui/material/Button';
 import { useLocation } from 'react-router';
+import authServices from '../services/authServices';
 
 
 const StyledAppBar = styled(AppBar)({
@@ -35,12 +36,14 @@ const FingerprintButton = (props) => {
   );
 };
 
+const role = authServices.getUserRole();
 
 
 export default function TopBar(props) {
 
   const location = useLocation().pathname;
   const fptAvalablePaths = ['/home', '/guest-registration']
+  const fptAvalableRoles = ['SECURITY']
 
   return (
     <StyledAppBar position="static">
@@ -52,7 +55,7 @@ export default function TopBar(props) {
               University Entrance Identity Verification
             </Typography>
           </Box>
-          {fptAvalablePaths.includes(location) && <FingerprintButton requestFingerprint={props.requestFingerprint}/>}
+          {fptAvalablePaths.includes(location) && fptAvalableRoles.includes(role) && <FingerprintButton requestFingerprint={props.requestFingerprint}/>}
         </Box>
       </Toolbar>
     </StyledAppBar>
