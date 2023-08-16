@@ -13,7 +13,7 @@ export const StyledRoot = styled('div')({
   left: 0,
   width: '100%',
   height: '100%',
-  backgroundImage: `url(${process.env.PUBLIC_URL}/images/uom.png)`,
+  backgroundImage: `url(/frontend-service/uni-entry/images/uom.png)`,
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center',

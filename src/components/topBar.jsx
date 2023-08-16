@@ -50,7 +50,7 @@ export default function TopBar(props) {
       <Toolbar>
         <Box display="flex" justifyContent="space-between" sx={{width: "100%"}}>
           <Box display="flex" alignItems="center" >
-            <Logo src={`${process.env.PUBLIC_URL}/images/logo.png`} alt="logo" />
+            <Logo src={`/frontend-service/uni-entry/images/logo.png`} alt="logo" />
             <Typography variant="h6">
               University Entrance Identity Verification
             </Typography>

@@ -94,7 +94,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename={'/frontend-service/uni-entry'}>
       <TopBar requestFingerprint={requestFingerprint} />
         <StudentCard isOpen={isNotify} userData={userData} />
         <Routes>
