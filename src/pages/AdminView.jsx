@@ -19,18 +19,21 @@ const columns = [
   {
     field: "gate_name",
     headerName: "Gate Name",
-    flex: 150,
+    flex: 90,
   },
   {
     field: "timestamp",
     headerName: "IN",
-    flex: 150,
+    flex: 90,
   },
 ];
 
 function AdminView() {
   const [indexNo, setIndexNo] = useState(null);
   const [rows, setRows] = useState([]);
+  const [originalRows, setOriginalRows] = useState([]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const handlePaginationChange = (model, details) => {
     console.log(model, details);
@@ -38,6 +41,33 @@ function AdminView() {
 
   const handleIndexNoChange = (value) => {
     setIndexNo(value.target.value);
+    // console.log(indexNo);
+  };
+
+  const clearData = () => {
+    setIndexNo(null);
+    setStartDate(null);
+    setEndDate(null);
+    setRows(originalRows);
+    window.location.reload();
+  };
+
+  const handleFilter = () => {
+    if (indexNo !== null) {
+      const newData = originalRows.filter((item) => item.index === indexNo);
+      console.log(newData);
+      setRows(newData);
+    }
+    if (startDate !== null && endDate !== null) {
+      const filteredRows = originalRows.filter((record) => {
+        const recordTimestamp = new Date(record.timestamp);
+        return (
+          (!startDate || recordTimestamp >= startDate) &&
+          (!endDate || recordTimestamp <= endDate)
+        );
+      });
+      setRows(filteredRows);
+    }
   };
 
   const [error, setError] = useState(null);
@@ -50,6 +80,7 @@ function AdminView() {
         const data = response.data.records;
         const rowsWithIds = data.map((row, index) => ({ ...row, id: index }));
         setRows(rowsWithIds);
+        setOriginalRows(rowsWithIds);
       } catch (error) {
         setError(error);
       }
@@ -69,6 +100,7 @@ function AdminView() {
             justifyContent: "space-between",
             alignItems: "start",
             height: "60%",
+            width: "80%",
             // margin: '0 0 0 250px'
           }}
         >
@@ -98,6 +130,7 @@ function AdminView() {
                 <Box>
                   <Button
                     fullWidth
+                    onClick={handleFilter}
                     size="small"
                     variant="contained"
                     sx={{ backgroundColor: "#4154F1" }}
@@ -113,12 +146,16 @@ function AdminView() {
                       <div>From</div>
                       <DatePicker
                         slotProps={{ textField: { size: "small" } }}
+                        value={startDate}
+                        onChange={(newDate) => setStartDate(newDate)}
                       />
                     </Box>
                     <Box sx={{ display: "flex", gap: "10px" }}>
                       <div>To</div>
                       <DatePicker
                         slotProps={{ textField: { size: "small" } }}
+                        value={endDate}
+                        onChange={(endDate) => setEndDate(endDate)}
                       />
                     </Box>
                   </LocalizationProvider>
@@ -148,7 +185,12 @@ function AdminView() {
 					</Grid> */}
               <Grid item xs={2}>
                 <Box>
-                  <Button fullWidth size="small" variant="outlined">
+                  <Button
+                    fullWidth
+                    size="small"
+                    variant="outlined"
+                    onClick={clearData}
+                  >
                     Clear
                   </Button>
                 </Box>
@@ -167,7 +209,6 @@ function AdminView() {
                 },
               }}
               pageSizeOptions={[5]}
-              
               disableRowSelectionOnClick
               disableColumnFilter={true}
               onPaginationModelChange={handlePaginationChange}

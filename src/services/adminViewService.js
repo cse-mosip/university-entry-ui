@@ -6,4 +6,6 @@ export async function getDetails() {
   return response;
 }
 
+
+
 export default { getDetails };
