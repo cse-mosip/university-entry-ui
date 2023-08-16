@@ -102,7 +102,7 @@ function App() {
           <Route element={<RouteAuthMiddleware role={"SECURITY"}><GuestRegistration inviteeData={inviteeFPData} setInviteeActive={setIsInviteeActive}  requestFingerprint={requestFingerprint}/></RouteAuthMiddleware>} path="guest-registration" />
           <Route element={<RouteAuthMiddleware role={"ADMIN"}><AdminView /></RouteAuthMiddleware>} path="entry-management" />
           {/* <Route element={<RouteAuthMiddleware role={'ADMIN'}><StaffRegistration /></RouteAuthMiddleware>} path='staff-registration' /> */}
-          <Route element={<RouteAuthMiddleware role={'STUDENT'}><StudentView /></RouteAuthMiddleware>} path='student-records' />
+          <Route element={<RouteAuthMiddleware role={"STUDENT"}><StudentView /></RouteAuthMiddleware>} path='student-records' />
           <Route element={<RouteAuthMiddleware role={"ADMIN"}><GateRegistration /></RouteAuthMiddleware>} path='/gate-registration' />
           {/* <Route element={<StudentCard isOpen={true} />} path="/stu" /> */}
           <Route element={<Home/>} path="/home" />

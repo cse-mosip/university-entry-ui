@@ -53,7 +53,7 @@ const mockRows = [
     gate_name: "1",
     timestamp: "09:20  12/07/2021",
     state: "IN",
-  }
+  },
 ];
 
 const StudentView = () => {
@@ -102,7 +102,7 @@ const StudentView = () => {
         height: "100%",
       }}
     >
-      <SideNavBar />
+      <SideNavBar role={"STUDENT"} />
       <Box>
         <Box
           sx={{
@@ -112,7 +112,7 @@ const StudentView = () => {
             paddingY: "10px",
             background: "#D9D9D9",
             borderRadius: "10px",
-            width: "60%"
+            width: "60%",
           }}
         >
           <Grid container rowSpacing={2} columnSpacing={5}>
@@ -181,7 +181,7 @@ const StudentView = () => {
             disableRowSelectionOnClick
           />
         </Box>
-    </Box>
+      </Box>
     </Box>
   );
 };
