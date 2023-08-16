@@ -20,7 +20,7 @@ const StudentCard = (props) => {
   useEffect(() => {
     setModalOpen(props.isOpen);
     handleModalClose();
-  }, [props.isOpen]);
+  }, [props.isOpen, props.userData]);
 
   return (
     <div style={{ display: "flex", height: "100%" }}>
@@ -37,7 +37,7 @@ const StudentCard = (props) => {
         }}
       >
         <div>
-          <StudentModal open={modalOpen} onClose={() => setModalOpen(false)} />
+          <StudentModal open={modalOpen} onClose={() => setModalOpen(false)} userData={props.userData} />
         </div>
       </Box>
     </div>

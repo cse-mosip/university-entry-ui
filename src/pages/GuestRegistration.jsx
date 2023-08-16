@@ -9,12 +9,11 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SideNavBar from "../components/SideNavBar/SideNavBar";
-import Modal from '@mui/material/Modal';
-import LoadingButton from '@mui/lab/LoadingButton';
-import SaveIcon from '@mui/icons-material/Save';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import CircularProgress from '@mui/material/CircularProgress';
-
+import Modal from "@mui/material/Modal";
+import LoadingButton from "@mui/lab/LoadingButton";
+import SaveIcon from "@mui/icons-material/Save";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import {
   StyledRoot,
@@ -47,34 +46,44 @@ const validationSchema = Yup.object({
 });
 
 const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #808080',
+  bgcolor: "background.paper",
+  border: "2px solid #808080",
   borderRadius: 5,
   boxShadow: 24,
   p: 8,
-  color: '#0170D6'
+  color: "#0170D6",
 };
 
 function GuestRegistration(props) {
-
   const navigate = useNavigate();
   const [modalView, setModalView] = useState(false);
   const [fingerPrintData, setFingerPrintData] = useState(null);
   const [isSumbitLoading, setSubmitLoading] = useState(false);
   const [isInviteeUpdate, setIsInviteeUpdate] = useState(false);
 
-  const { inviteeData, setInviteeActive } = props;
+
+  const [values, setValues] = useState({
+    name: "",
+    phone_number: "",
+    nic: "",
+    gender: "MALE",
+    bio_sign: "",
+    approver_id: "1",
+  });
+
+
+  const { inviteeData, setInviteeActive, requestFingerprint } = props;
 
   // to get invitee fingerprint data
   useEffect(() => {
     setIsInviteeUpdate(true);
     setFingerPrintData(inviteeData);
-  }, [inviteeData])
+  }, [inviteeData]);
 
   const guestFormik = useFormik({
     initialValues: {
@@ -90,9 +99,11 @@ function GuestRegistration(props) {
       approver_id: "1",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values, { resetForm }) => {  // TODO: include fingerprint data to the endpoint data
+    onSubmit: async (values, { resetForm }) => {
+      // TODO: include fingerprint data to the endpoint data
       setSubmitLoading(true);
-      console.log(values);
+      values.bio_sign = fingerPrintData;
+      console.log('on submit######################################', values);
       try {
         const response = await guestRegistrationService.registerGuest(values);
 
@@ -135,7 +146,7 @@ function GuestRegistration(props) {
       setModalView(false);
       setInviteeActive(false);
       setIsInviteeUpdate(false);
-    }
+    },
   });
 
   const handleTitleChange = (event) => {
@@ -150,9 +161,67 @@ function GuestRegistration(props) {
     setIsInviteeUpdate(false);
     setInviteeActive(true);
     setModalView(!modalView);
+    requestFingerprint();
   }
-
   const handleModalCancel = () => {
+    setModalView(false);
+    setInviteeActive(false);
+    setIsInviteeUpdate(false);
+  };
+
+
+  const callBackend = async () => {
+    setSubmitLoading(true);
+    const typedArray = new Uint8Array(fingerPrintData['1']['buffer']); 
+    const fpArray = [...typedArray];
+    values.bio_sign = { "data": [{ "buffer": { "type": "Buffer", "data": fpArray}, "bioSubType": "Left Thumb"}]};
+    try {
+      const response = await guestRegistrationService.registerGuest(values);
+
+      if (response.status == 200) {
+        console.log("SUCCESSFULLY REGISTERED  ");
+        // resetForm();
+        setValues({
+          name: "",
+          phone_number: "",
+          nic: "",
+          gender: "MALE",
+          bio_sign: "",
+          approver_id: "1",
+        })
+        toast.success("Successfully Registered", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+        });
+        // navigate("/home");
+      } else {
+        console.log(response.status);
+        toast.error("Error Occured", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(`Error Occured`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+    // call api
+    // resetForm();
     setModalView(false);
     setInviteeActive(false);
     setIsInviteeUpdate(false);
@@ -160,9 +229,8 @@ function GuestRegistration(props) {
 
   return (
     <>
-
       <div style={{ display: "flex", height: "100%" }}>
-        <SideNavBar />
+        <SideNavBar role={"SECURITY"} />
         <Box
           sx={{
             padding: "10px",
@@ -217,15 +285,15 @@ function GuestRegistration(props) {
                     name="name"
                     id="name"
                     type="text"
-                    value={guestFormik.values.name}
-                    onChange={guestFormik.handleChange}
-                    onBlur={guestFormik.handleBlur}
-                    error={Boolean(
-                      guestFormik.touched.name && guestFormik.errors.name
-                    )}
-                    helperText={
-                      guestFormik.touched.name && guestFormik.errors.name
-                    }
+                    value={values.name}
+                    onChange={(e) => setValues({ ...values, name: e.target.value })}
+                  // onBlur={guestFormik.handleBlur}
+                  // error={Boolean(
+                  //   guestFormik.touched.name && guestFormik.errors.name
+                  // )}
+                  // helperText={
+                  //   guestFormik.touched.name && guestFormik.errors.name
+                  // }
                   />
                 </Grid>
 
@@ -239,17 +307,17 @@ function GuestRegistration(props) {
                     name="phone_number"
                     id="phone_number"
                     type="tel"
-                    value={guestFormik.phone_number}
-                    onChange={guestFormik.handleChange}
-                    onBlur={guestFormik.handleBlur}
-                    error={Boolean(
-                      guestFormik.touched.phone_number &&
-                      guestFormik.errors.phone_number
-                    )}
-                    helperText={
-                      guestFormik.touched.phone_number &&
-                      guestFormik.errors.phone_number
-                    }
+                    value={values.phone_number}
+                    onChange={(e) => setValues({ ...values, phone_number: e.target.value })}
+                  // onBlur={guestFormik.handleBlur}
+                  // error={Boolean(
+                  //   guestFormik.touched.phone_number &&
+                  //     guestFormik.errors.phone_number
+                  // )}
+                  // helperText={
+                  //   guestFormik.touched.phone_number &&
+                  //   guestFormik.errors.phone_number
+                  // }
                   />
                 </Grid>
 
@@ -263,13 +331,15 @@ function GuestRegistration(props) {
                     name="nic"
                     id="nic"
                     type="text"
-                    value={guestFormik.nic}
-                    onChange={guestFormik.handleChange}
-                    onBlur={guestFormik.handleBlur}
-                    error={Boolean(
-                      guestFormik.touched.nic && guestFormik.errors.nic
-                    )}
-                    helperText={guestFormik.touched.nic && guestFormik.errors.nic}
+                    value={values.nic}
+                    onChange={(e) => setValues({ ...values, nic: e.target.value })}
+                  // onBlur={guestFormik.handleBlur}
+                  // error={Boolean(
+                  //   guestFormik.touched.nic && guestFormik.errors.nic
+                  // )}
+                  // helperText={
+                  //   guestFormik.touched.nic && guestFormik.errors.nic
+                  // }
                   />
                 </Grid>
 
@@ -281,9 +351,9 @@ function GuestRegistration(props) {
                   <StyledRadioGroup
                     aria-label="gender"
                     name="gender"
-                    value={guestFormik.values.gender}
-                    onChange={guestFormik.handleChange}
-                    onBlur={guestFormik.handleBlur}
+                    value={values.gender}
+                    onChange={(e) => setValues({ ...values, gender: e.target.value })}
+                  // onBlur={guestFormik.handleBlur}
                   >
                     <FormControlLabel
                       value="MALE"
@@ -311,7 +381,7 @@ function GuestRegistration(props) {
                 >
                   Proceed
                 </Button>
-                <Button
+                {/* <Button
                   variant="contained"
                   sx={{
                     bgcolor: "#DC3545",
@@ -321,7 +391,7 @@ function GuestRegistration(props) {
                   }}
                 >
                   Cancel
-                </Button>
+                </Button> */}
               </StyledButtonBox>
             </StyledBox>
           </StyledRoot>
@@ -334,32 +404,58 @@ function GuestRegistration(props) {
         sx={{ backgroundColor: "rgba(128, 128, 128, 0.8)" }}
       >
         <Box sx={modalStyle}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography
+              id="modal-modal-title"
+              variant="h5"
+              component="h2"
+              sx={{ fontWeight: "bold", textAlign: "center" }}
+            >
               Please take the Invitee's fingerprint
             </Typography>
             <img
-              src={'/images/fp_3.png'}
+              src={"/images/fp_3.png"}
               alt="fingerprint image"
               style={{ margin: "10%", alignItems: "center" }}
             />
           </Box>
-          <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 5 }}>
-          {!isInviteeUpdate && <CircularProgress/>}
-          {isInviteeUpdate && inviteeData !== null &&
-            <Typography variant="h5" component="h2" sx={{ color: 'green', gap: 1 }}>
-              <CheckCircleOutlineIcon color="success" fontSize="large" />
-              Successfull
-          </Typography>
-          }
-          { isInviteeUpdate && inviteeData === null &&
-            <Typography variant="h5" component="h2" sx={{ color: 'red', gap: 1 }}>
-              <CheckCircleOutlineIcon color="error" fontSize="large" />
-              Failed
-            </Typography>
-          }
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 5,
+            }}
+          >
+            {!isInviteeUpdate && <CircularProgress />}
+            {isInviteeUpdate && inviteeData !== null && (
+              <Typography
+                variant="h5"
+                component="h2"
+                sx={{ color: "green", gap: 1 }}
+              >
+                <CheckCircleOutlineIcon color="success" fontSize="large" />
+                Successfully Captured
+              </Typography>
+            )}
+            {isInviteeUpdate && inviteeData === null && (
+              <Typography
+                variant="h5"
+                component="h2"
+                sx={{ color: "red", gap: 1 }}
+              >
+                <CheckCircleOutlineIcon color="error" fontSize="large" />
+                Failed to capture
+              </Typography>
+            )}
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+          <Box sx={{ display: "flex", justifyContent: "space-around" }}>
             <Button
               variant="contained"
               onClick={handleModalCancel}
@@ -377,7 +473,7 @@ function GuestRegistration(props) {
               loadingPosition="start"
               startIcon={isSumbitLoading ? <SaveIcon /> : null}
               disabled={fingerPrintData === null}
-              onClick={guestFormik.onSubmit}
+              onClick={callBackend}
               variant="contained"
               sx={{
                 bgcolor: "#4154F1",

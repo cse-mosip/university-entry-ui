@@ -8,111 +8,32 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import SideNavBar from "../components/SideNavBar/AdminViewSideNavBar";
+import SideNavBar from "../components/SideNavBar/SideNavBar";
 
 const columns = [
-  // {
-  //   field: "id",
-  //   headerName: "Id",
-  //   flex: 90,
-  // },
   {
     field: "index",
     headerName: "Index",
     flex: 90,
   },
   {
-    field: "gateNo",
-    headerName: "Gate No",
-    flex: 150,
+    field: "gate_name",
+    headerName: "Gate Name",
+    flex: 90,
   },
   {
-    field: "in",
+    field: "timestamp",
     headerName: "IN",
-    flex: 150,
-  },
-  // {
-  // 	field: 'faculty',
-  // 	headerName: 'Faculty',
-  // 	flex: 110
-  // },
-  // {
-  // 	field: 'batch',
-  // 	headerName: 'Batch',
-  // 	flex: 110
-  // }
-];
-
-const rows = [
-  {
-    id: 1,
-    index: "190647X",
-    gateNo: 1,
-    in: "09:20  12/07/2023",
-    faculty: "Eng.",
-    batch: "19 batch",
-  },
-  {
-    id: 2,
-    index: "190377T",
-    gateNo: 2,
-    in: "10:20  10/07/2023",
-    faculty: "Eng.",
-    batch: "19 batch",
-  },
-  {
-    id: 3,
-    index: "190705B",
-    gateNo: 1,
-    in: "08:20  12/07/2023",
-    faculty: "Eng.",
-    batch: "19 batch",
-  },
-  {
-    id: 4,
-    index: "190064G",
-    gateNo: 3,
-    in: "07:20  11/07/2023",
-    faculty: "Eng.",
-    batch: "19 batch",
-  },
-  {
-    id: 5,
-    index: "190545H",
-    gateNo: 2,
-    in: "06:20  12/07/2023",
-    faculty: "Eng.",
-    batch: "19 batch",
-  },
-  {
-    id: 6,
-    index: "190242C",
-    gateNo: 2,
-    in: "10:30  02/07/2023",
-    faculty: "Eng.",
-    batch: "19 batch",
-  },
-  {
-    id: 7,
-    index: "190653L",
-    gateNo: 3,
-    in: "07:20  01/07/2023",
-    faculty: "Eng.",
-    batch: "19 batch",
-  },
-  {
-    id: 8,
-    index: "190649T",
-    gateNo: 1,
-    in: "11:20  12/07/2023",
-    faculty: "Eng.",
-    batch: "19 batch",
+    flex: 90,
   },
 ];
 
 function AdminView() {
-  const [data, setData] = useState([]);
   const [indexNo, setIndexNo] = useState(null);
+  const [rows, setRows] = useState([]);
+  const [originalRows, setOriginalRows] = useState([]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   const handlePaginationChange = (model, details) => {
     console.log(model, details);
@@ -120,6 +41,33 @@ function AdminView() {
 
   const handleIndexNoChange = (value) => {
     setIndexNo(value.target.value);
+    // console.log(indexNo);
+  };
+
+  const clearData = () => {
+    setIndexNo(null);
+    setStartDate(null);
+    setEndDate(null);
+    setRows(originalRows);
+    window.location.reload();
+  };
+
+  const handleFilter = () => {
+    if (indexNo !== null) {
+      const newData = originalRows.filter((item) => item.index === indexNo);
+      console.log(newData);
+      setRows(newData);
+    }
+    if (startDate !== null && endDate !== null) {
+      const filteredRows = originalRows.filter((record) => {
+        const recordTimestamp = new Date(record.timestamp);
+        return (
+          (!startDate || recordTimestamp >= startDate) &&
+          (!endDate || recordTimestamp <= endDate)
+        );
+      });
+      setRows(filteredRows);
+    }
   };
 
   const [error, setError] = useState(null);
@@ -129,7 +77,10 @@ function AdminView() {
       try {
         const response = await getDetails();
         console.log(response.data);
-        setData(response.data);
+        const data = response.data.records;
+        const rowsWithIds = data.map((row, index) => ({ ...row, id: index }));
+        setRows(rowsWithIds);
+        setOriginalRows(rowsWithIds);
       } catch (error) {
         setError(error);
       }
@@ -138,9 +89,20 @@ function AdminView() {
   }, []);
 
   return (
+    // <Box
+    //   sx={{
+    //     //position: "fixed",
+    //     top: "60px",
+    //     left: 0,
+    //     width: "80%",
+    //     height: "100%",
+    //     //display: "flex",
+    //     height: "100%",
+    //   }}
+    // >
     <div className="container">
       <div style={{ display: "flex", height: "100%" }}>
-        <SideNavBar />
+        <SideNavBar role={"ADMIN"} />
         <Box
           sx={{
             padding: "10px",
@@ -149,12 +111,13 @@ function AdminView() {
             justifyContent: "space-between",
             alignItems: "start",
             height: "60%",
+            width: "80%",
             // margin: '0 0 0 250px'
           }}
         >
           <Box
             sx={{
-              marginX: "300px",
+              // marginX: "300px",
               marginY: "20px",
               paddingX: "20px",
               paddingY: "10px",
@@ -178,6 +141,7 @@ function AdminView() {
                 <Box>
                   <Button
                     fullWidth
+                    onClick={handleFilter}
                     size="small"
                     variant="contained"
                     sx={{ backgroundColor: "#4154F1" }}
@@ -193,12 +157,16 @@ function AdminView() {
                       <div>From</div>
                       <DatePicker
                         slotProps={{ textField: { size: "small" } }}
+                        value={startDate}
+                        onChange={(newDate) => setStartDate(newDate)}
                       />
                     </Box>
                     <Box sx={{ display: "flex", gap: "10px" }}>
                       <div>To</div>
                       <DatePicker
                         slotProps={{ textField: { size: "small" } }}
+                        value={endDate}
+                        onChange={(endDate) => setEndDate(endDate)}
                       />
                     </Box>
                   </LocalizationProvider>
@@ -228,7 +196,12 @@ function AdminView() {
 					</Grid> */}
               <Grid item xs={2}>
                 <Box>
-                  <Button fullWidth size="small" variant="outlined">
+                  <Button
+                    fullWidth
+                    size="small"
+                    variant="outlined"
+                    onClick={clearData}
+                  >
                     Clear
                   </Button>
                 </Box>
@@ -247,7 +220,6 @@ function AdminView() {
                 },
               }}
               pageSizeOptions={[5]}
-              
               disableRowSelectionOnClick
               disableColumnFilter={true}
               onPaginationModelChange={handlePaginationChange}
@@ -256,6 +228,7 @@ function AdminView() {
         </Box>
       </div>
     </div>
+    // </Box>
   );
 }
 

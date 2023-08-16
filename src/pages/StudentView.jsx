@@ -92,6 +92,11 @@ const StudentView = () => {
   return (
     <Box
       sx={{
+        position: "fixed",
+        top: "60px",
+        left: 0,
+        width: "100%",
+        height: "100%",
         display: "flex",
         height: "100%",
       }}
@@ -174,7 +179,8 @@ const StudentView = () => {
             disableRowSelectionOnClick
           />
         </Box>
-      </Box>
+      </div>
+      //{" "}
     </Box>
   );
 };

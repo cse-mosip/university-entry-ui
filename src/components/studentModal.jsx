@@ -11,8 +11,8 @@ const Box = styled(Paper)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   marginLeft: 'auto',
-  marginRight:25,
-  marginTop:20,
+  marginRight: 25,
+  marginTop: 20,
 }));
 
 const Image = styled('img')({
@@ -47,7 +47,7 @@ const CustomButton = styled(Button)({
   marginRight: 20,
 });
 
-const StudentModal = ({ open, onClose }) => {
+const StudentModal = ({ open, onClose, userData }) => {
   const handleButtonClick = () => {
     onClose();
   };
@@ -55,15 +55,15 @@ const StudentModal = ({ open, onClose }) => {
     <Modal open={open} onClose={onClose}>
       <Box>
         <Image
-          src="https://www.idcardstore.com.au/wp-content/uploads/2020/07/portrait-for-photo-id-card-scaled-e1613635059727.jpg"
+          src= "https://www.idcardstore.com.au/wp-content/uploads/2020/07/portrait-for-photo-id-card-scaled-e1613635059727.jpg"
           alt="Student"
         />
         <TextContainer>
           <NameLabel variant="h6">
-            Student Name
+            {userData?.name}
           </NameLabel>
           <IndexLabel variant="body2">
-            Index Number
+            {userData?.index}
           </IndexLabel>
         </TextContainer>
         <CustomButton variant="contained" onClick={handleButtonClick}>
