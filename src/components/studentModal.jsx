@@ -51,6 +51,8 @@ const StudentModal = ({ open, onClose, userData }) => {
   const handleButtonClick = () => {
     onClose();
   };
+
+  console.log("propss", userData);
   return (
     <Modal open={open} onClose={onClose}>
       <Box>
@@ -60,10 +62,10 @@ const StudentModal = ({ open, onClose, userData }) => {
         />
         <TextContainer>
           <NameLabel variant="h6">
-            {userData?.name}
+            {userData?.data?.name}
           </NameLabel>
           <IndexLabel variant="body2">
-            {userData?.index}
+            {userData?.data?.index}
           </IndexLabel>
         </TextContainer>
         <CustomButton variant="contained" onClick={handleButtonClick}>

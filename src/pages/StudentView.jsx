@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import StudentDateFilter from "../components/studentDateFilter";
-import SideNavBar from "../components/SideNavBar/StudentViewSideNav";
+// import SideNavBar from "../components/SideNavBar/StudentViewSideNav";
 import { getStudentRecords } from "../services/studentViewService";
+import SideNavBar from "../components/SideNavBar/SideNavBar";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -179,8 +180,7 @@ const StudentView = () => {
             disableRowSelectionOnClick
           />
         </Box>
-      </div>
-      //{" "}
+    </Box>
     </Box>
   );
 };

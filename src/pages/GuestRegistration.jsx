@@ -68,6 +68,7 @@ function GuestRegistration(props) {
 
 
   const [values, setValues] = useState({
+    title: "MR",
     name: "",
     phone_number: "",
     nic: "",
@@ -182,6 +183,7 @@ function GuestRegistration(props) {
         console.log("SUCCESSFULLY REGISTERED  ");
         // resetForm();
         setValues({
+          title: "MR",
           name: "",
           phone_number: "",
           nic: "",
@@ -270,8 +272,8 @@ function GuestRegistration(props) {
                 <Grid item xs={2}>
                   <StyledSelect
                     variant="outlined"
-                    value={guestFormik.values.title}
-                    onChange={handleTitleChange}
+                    value={values.title}
+                    onChange={(e) => setValues({ ...values, title: e.target.value })}
                   >
                     <MenuItem value="MR">Mr.</MenuItem>
                     <MenuItem value="MRS">Mrs.</MenuItem>
@@ -465,6 +467,7 @@ function GuestRegistration(props) {
                 padding: "8px 25px",
                 fontSize: "16px",
               }}
+              disabled={isSumbitLoading}
             >
               Cancel
             </Button>

@@ -69,12 +69,10 @@ function App() {
     const typedArray = new Uint8Array(userFPData['1']['buffer']); 
     const fpArray = [...typedArray];
 
-    console.log('typed array%%%%%%%%%%%%%%%%', typedArray);
     const data = {
       "entry_place_id": localStorage.getItem('gate_id'),
       "bio_sign": { "data": [{ "buffer": { "type": "Buffer", "data": fpArray}, "bioSubType": "Left Thumb"}]}
     }
-    console.log("fingerprint-data: -----------------------------", data);
     try {
       const response = await authenticateFingerprint(data);
       console.log(response, 'fingerprint authentication');
