@@ -83,30 +83,38 @@ const StudentView = () => {
   return (
     <Box
       sx={{
+        position: "fixed",
+        top: "60px",
+        left: 0,
+        width: "100%",
+        height: "100%",
         display: "flex",
         height: "100%",
       }}
     >
-      <SideNavBar role={"STUDENT"} />
-      <Box>
-        <StudentDateFilter />
-        <Box sx={{ width: "100%" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
+      <div style={{ display: "flex", height: "100%" }}>
+        <SideNavBar role={"STUDENT"} />
+        <Box>
+          <StudentDateFilter />
+          <Box sx={{ width: "90%" }}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: {
+                    pageSize: 5,
+                  },
                 },
-              },
-            }}
-            pageSizeOptions={[5]}
-            checkboxSelection
-            disableRowSelectionOnClick
-          />
+              }}
+              pageSizeOptions={[5]}
+              checkboxSelection
+              disableRowSelectionOnClick
+            />
+          </Box>
         </Box>
-      </Box>
+      </div>
+      //{" "}
     </Box>
   );
 };

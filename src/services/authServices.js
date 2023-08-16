@@ -1,9 +1,17 @@
 import jwtDecode from 'jwt-decode';
 import http from './httpServices';
 
+// fingerprint authentication
+export async function authenticateFingerprint(fingerprintData) {
+    const apiEndPoint = "/entry/save-entry";
+    const response = await http().post(apiEndPoint, fingerprintData);
+    return response
+}
+
+
 export async function login(email, password) {
     const apiEndpoint = '/auth/login';
-  const response = await http.post(
+  const response = await http().post(
     apiEndpoint,
     {
       email: email,
@@ -67,3 +75,4 @@ export default {
   getUserRole,
   getForcePassword,
 }
+

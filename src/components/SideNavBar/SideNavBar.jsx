@@ -12,6 +12,7 @@ import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { logout } from "../../services/authServices";
 
 export default function SideNavBar(props) {
   const role = props.role;
@@ -26,21 +27,19 @@ export default function SideNavBar(props) {
       route: "/home",
     },
     {
-      text: "Staff Registration",
+      text: "Entry Records",
       icon: <PersonIcon />,
-      route: "/guest-registration",
-    },
-    {
-      text: "Logout",
-      icon: <LogoutIcon />,
-      route: "/",
+      route: "/entry-management",
     },
   ];
 
   const studentsItems = [
     { text: "Home", icon: <HomeIcon />, route: "/home" },
-    { text: "University Entrance History", icon: <HomeIcon />, route: "/home" },
-    { text: "Logout", icon: <LogoutIcon />, route: "/" },
+    {
+      text: "University Entrance History",
+      icon: <PersonIcon />,
+      route: "/student-records",
+    },
   ];
 
   const securityItems = [
@@ -55,7 +54,6 @@ export default function SideNavBar(props) {
     //   icon: <PersonIcon />,
     //   route: "/guest-registration",
     // },
-    { text: "Logout", icon: <LogoutIcon />, route: "/" },
   ];
 
   return (
@@ -123,6 +121,24 @@ export default function SideNavBar(props) {
               </ListItemButton>
             </ListItem>
           ))}
+
+        <ListItem key="Logout" disablePadding>
+          <ListItemButton
+            component={Link}
+            to="/"
+            onClick={() => {
+              logout();
+            }}
+            sx={{
+              backgroundColor: currentPath === "/" ? "blue" : "transparent",
+            }}
+          >
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItemButton>
+        </ListItem>
       </List>
       <Divider />
     </Box>

@@ -1,10 +1,17 @@
 import { Box, Button, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SideNavBar from "../components/SideNavBar/SideNavBar";
 import { useNavigate } from "react-router-dom";
+import authServices from "../services/authServices";
 
 function Home() {
   const navigate = useNavigate();
+  const [userRole, setUserRole] = useState("");
+
+  useEffect(() => {
+    const userRole = authServices.getUserRole();
+    setUserRole(userRole);
+  }, []);
 
   return (
     <Box
@@ -22,7 +29,7 @@ function Home() {
       }}
     >
       <div style={{ display: "flex", height: "100%" }}>
-        <SideNavBar role={"SECURITY"} />
+        <SideNavBar role={userRole} />
         <Box
           sx={{
             padding: "10px",
@@ -48,7 +55,7 @@ function Home() {
             <br /> Entrance Identity <br />
             System
           </Typography>
-          <Button
+          {/* <Button
             variant="contained"
             sx={{
               color: "white",
@@ -60,7 +67,8 @@ function Home() {
             onClick={() => navigate("/device-setup")}
           >
             Device Setup
-          </Button>
+
+          </Button> */}
         </Box>
       </div>
     </Box>
