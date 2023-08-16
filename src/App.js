@@ -41,7 +41,7 @@ function App() {
   useEffect(() => {
     if(isInviteeActive) {
       setInviteeFPData(userFPData);
-    } else if (userData !== null) {
+    } else {
       autheticateFP();
     }
   }, [userFPData])
@@ -54,6 +54,7 @@ function App() {
     if (fingerprintData.success === undefined) {
     //  setInviteeFPData(fingerprintData);
      setUserFPData(fingerprintData);
+     console.log('fingerpint**********', fingerprintData);
     } else {
       console.log("fingerprint not successfull");
     }
@@ -61,15 +62,23 @@ function App() {
 
 
   const autheticateFP = async () => {
+    if (userFPData === null) {
+      return
+    }
+
+    const typedArray = new Uint8Array(userFPData['1']['buffer']); 
+    const fpArray = [...typedArray];
+
+    console.log('typed array%%%%%%%%%%%%%%%%', typedArray);
     const data = {
       "entry_place_id": localStorage.getItem('gate_id'),
-      "bio_sign": { "data": userFPData}
+      "bio_sign": { "data": [{ "buffer": { "type": "Buffer", "data": fpArray}, "bioSubType": "Left Thumb"}]}
     }
     console.log("fingerprint-data: -----------------------------", data);
     try {
       const response = await authenticateFingerprint(data);
       console.log(response, 'fingerprint authentication');
-      if (response.success) {
+      if (response?.data?.success) {
         setIsNotify(true);
         setUserdata(response);
       } else {

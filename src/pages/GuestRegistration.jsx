@@ -66,6 +66,17 @@ function GuestRegistration(props) {
   const [isSumbitLoading, setSubmitLoading] = useState(false);
   const [isInviteeUpdate, setIsInviteeUpdate] = useState(false);
 
+
+  const [values, setValues] = useState({
+    name: "",
+    phone_number: "",
+    nic: "",
+    gender: "MALE",
+    bio_sign: "",
+    approver_id: "1",
+  });
+
+
   const { inviteeData, setInviteeActive, requestFingerprint } = props;
 
   // to get invitee fingerprint data
@@ -92,6 +103,7 @@ function GuestRegistration(props) {
       // TODO: include fingerprint data to the endpoint data
       setSubmitLoading(true);
       values.bio_sign = fingerPrintData;
+      console.log('on submit######################################', values);
       try {
         const response = await guestRegistrationService.registerGuest(values);
 
@@ -157,6 +169,64 @@ function GuestRegistration(props) {
     setIsInviteeUpdate(false);
   };
 
+
+  const callBackend = async () => {
+    setSubmitLoading(true);
+    const typedArray = new Uint8Array(fingerPrintData['1']['buffer']); 
+    const fpArray = [...typedArray];
+    values.bio_sign = { "data": [{ "buffer": { "type": "Buffer", "data": fpArray}, "bioSubType": "Left Thumb"}]};
+    try {
+      const response = await guestRegistrationService.registerGuest(values);
+
+      if (response.status == 200) {
+        console.log("SUCCESSFULLY REGISTERED  ");
+        // resetForm();
+        setValues({
+          name: "",
+          phone_number: "",
+          nic: "",
+          gender: "MALE",
+          bio_sign: "",
+          approver_id: "1",
+        })
+        toast.success("Successfully Registered", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+        });
+        // navigate("/home");
+      } else {
+        console.log(response.status);
+        toast.error("Error Occured", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(`Error Occured`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+    // call api
+    // resetForm();
+    setModalView(false);
+    setInviteeActive(false);
+    setIsInviteeUpdate(false);
+  }
+
   return (
     <>
       <div style={{ display: "flex", height: "100%" }}>
@@ -215,15 +285,15 @@ function GuestRegistration(props) {
                     name="name"
                     id="name"
                     type="text"
-                    value={guestFormik.values.name}
-                    onChange={guestFormik.handleChange}
-                    onBlur={guestFormik.handleBlur}
-                    error={Boolean(
-                      guestFormik.touched.name && guestFormik.errors.name
-                    )}
-                    helperText={
-                      guestFormik.touched.name && guestFormik.errors.name
-                    }
+                    value={values.name}
+                    onChange={(e) => setValues({ ...values, name: e.target.value })}
+                  // onBlur={guestFormik.handleBlur}
+                  // error={Boolean(
+                  //   guestFormik.touched.name && guestFormik.errors.name
+                  // )}
+                  // helperText={
+                  //   guestFormik.touched.name && guestFormik.errors.name
+                  // }
                   />
                 </Grid>
 
@@ -237,17 +307,17 @@ function GuestRegistration(props) {
                     name="phone_number"
                     id="phone_number"
                     type="tel"
-                    value={guestFormik.phone_number}
-                    onChange={guestFormik.handleChange}
-                    onBlur={guestFormik.handleBlur}
-                    error={Boolean(
-                      guestFormik.touched.phone_number &&
-                        guestFormik.errors.phone_number
-                    )}
-                    helperText={
-                      guestFormik.touched.phone_number &&
-                      guestFormik.errors.phone_number
-                    }
+                    value={values.phone_number}
+                    onChange={(e) => setValues({ ...values, phone_number: e.target.value })}
+                  // onBlur={guestFormik.handleBlur}
+                  // error={Boolean(
+                  //   guestFormik.touched.phone_number &&
+                  //     guestFormik.errors.phone_number
+                  // )}
+                  // helperText={
+                  //   guestFormik.touched.phone_number &&
+                  //   guestFormik.errors.phone_number
+                  // }
                   />
                 </Grid>
 
@@ -261,15 +331,15 @@ function GuestRegistration(props) {
                     name="nic"
                     id="nic"
                     type="text"
-                    value={guestFormik.nic}
-                    onChange={guestFormik.handleChange}
-                    onBlur={guestFormik.handleBlur}
-                    error={Boolean(
-                      guestFormik.touched.nic && guestFormik.errors.nic
-                    )}
-                    helperText={
-                      guestFormik.touched.nic && guestFormik.errors.nic
-                    }
+                    value={values.nic}
+                    onChange={(e) => setValues({ ...values, nic: e.target.value })}
+                  // onBlur={guestFormik.handleBlur}
+                  // error={Boolean(
+                  //   guestFormik.touched.nic && guestFormik.errors.nic
+                  // )}
+                  // helperText={
+                  //   guestFormik.touched.nic && guestFormik.errors.nic
+                  // }
                   />
                 </Grid>
 
@@ -281,9 +351,9 @@ function GuestRegistration(props) {
                   <StyledRadioGroup
                     aria-label="gender"
                     name="gender"
-                    value={guestFormik.values.gender}
-                    onChange={guestFormik.handleChange}
-                    onBlur={guestFormik.handleBlur}
+                    value={values.gender}
+                    onChange={(e) => setValues({ ...values, gender: e.target.value })}
+                  // onBlur={guestFormik.handleBlur}
                   >
                     <FormControlLabel
                       value="MALE"
@@ -371,7 +441,7 @@ function GuestRegistration(props) {
                 sx={{ color: "green", gap: 1 }}
               >
                 <CheckCircleOutlineIcon color="success" fontSize="large" />
-                Successfull
+                Successfully Captured
               </Typography>
             )}
             {isInviteeUpdate && inviteeData === null && (
@@ -381,7 +451,7 @@ function GuestRegistration(props) {
                 sx={{ color: "red", gap: 1 }}
               >
                 <CheckCircleOutlineIcon color="error" fontSize="large" />
-                Failed
+                Failed to capture
               </Typography>
             )}
           </Box>
@@ -403,7 +473,7 @@ function GuestRegistration(props) {
               loadingPosition="start"
               startIcon={isSumbitLoading ? <SaveIcon /> : null}
               disabled={fingerPrintData === null}
-              onClick={guestFormik.onSubmit}
+              onClick={callBackend}
               variant="contained"
               sx={{
                 bgcolor: "#4154F1",

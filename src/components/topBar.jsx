@@ -55,7 +55,7 @@ export default function TopBar(props) {
               University Entrance Identity Verification
             </Typography>
           </Box>
-          {fptAvalablePaths.includes(location) && fptAvalableRoles.includes(role) && <FingerprintButton requestFingerprint={props.requestFingerprint}/>}
+          {fptAvalablePaths.includes(location) && <FingerprintButton requestFingerprint={props.requestFingerprint}/>}
         </Box>
       </Toolbar>
     </StyledAppBar>
