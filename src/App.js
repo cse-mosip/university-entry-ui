@@ -23,6 +23,7 @@ function App() {
 
   const [isInviteeActive, setIsInviteeActive] = useState(false);
   const [inviteeFPData, setInviteeFPData] = useState(null);
+  const [ userFPData, setUserFPData] = useState(null);
   const [isNotify, setIsNotify] = useState(false);
   const [userData, setUserdata] = useState(null);
 
@@ -37,40 +38,47 @@ function App() {
     socket.on("fingerprintData", handleFingerprintData);
   }, []);
 
+  useEffect(() => {
+    if(isInviteeActive) {
+      setInviteeFPData(userFPData);
+    } else {
+      autheticateFP();
+    }
+  }, [userFPData])
+
   const handleWSconnection = () => {
-    requestFingerprint();
     console.log('connection is succeeded')
   }
 
   const handleFingerprintData = async (fingerprintData) => {
     if (fingerprintData.success === undefined) {
-      if (isInviteeActive) {
-        setInviteeFPData(fingerprintData);
-      } else {
-        const data = {
-          "entry_place_id": localStorage.getItem('gate_id'),
-          "bio_sign": { "data": fingerprintData}
-        }
-        console.log("fingerprint-data: -----------------------------", data);
-        try {
-          const response = await authenticateFingerprint(data);
-          console.log(response, 'fingerprint authentication');
-          if (response.success) {
-            setIsNotify(true);
-            setUserdata(response);
-          } else {
-            toast.error("Unaothorized");
-          }
-        } catch (e) {
-          console.log(e);
-          toast.error("Unaothorized");
-        }
-        // if (response.)
-      }
+    //  setInviteeFPData(fingerprintData);
+     setUserFPData(fingerprintData);
     } else {
-      // console.log("fingerprint not successfull");
+      console.log("fingerprint not successfull");
     }
-    requestFingerprint();
+  }
+
+
+  const autheticateFP = async () => {
+    const data = {
+      "entry_place_id": localStorage.getItem('gate_id'),
+      "bio_sign": { "data": userFPData}
+    }
+    console.log("fingerprint-data: -----------------------------", data);
+    try {
+      const response = await authenticateFingerprint(data);
+      console.log(response, 'fingerprint authentication');
+      if (response.success) {
+        setIsNotify(true);
+        setUserdata(response);
+      } else {
+        toast.error("Unaothorized");
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error("Unaothorized");
+    }
   }
 
   const requestFingerprint = () => {
@@ -79,8 +87,8 @@ function App() {
 
   return (
     <>
-      <TopBar />
       <BrowserRouter>
+      <TopBar requestFingerprint={requestFingerprint} />
         <StudentCard isOpen={isNotify} userData={userData} />
         <Routes>
           <Route element={<RouteAuthMiddleware role={"SECURITY"}><DeviceSetup /></RouteAuthMiddleware>} path="/gate-setup" />

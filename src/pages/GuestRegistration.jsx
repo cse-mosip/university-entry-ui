@@ -66,7 +66,7 @@ function GuestRegistration(props) {
   const [isSumbitLoading, setSubmitLoading] = useState(false);
   const [isInviteeUpdate, setIsInviteeUpdate] = useState(false);
 
-  const { inviteeData, setInviteeActive } = props;
+  const { inviteeData, setInviteeActive, requestFingerprint } = props;
 
   // to get invitee fingerprint data
   useEffect(() => {
@@ -149,8 +149,8 @@ function GuestRegistration(props) {
     setIsInviteeUpdate(false);
     setInviteeActive(true);
     setModalView(!modalView);
-  };
-
+    requestFingerprint();
+  }
   const handleModalCancel = () => {
     setModalView(false);
     setInviteeActive(false);
