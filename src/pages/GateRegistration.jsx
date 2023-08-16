@@ -12,10 +12,17 @@ const GateRegistration = () => {
   const [location, setLocation] = useState("");
 
   const handleSubmit = async () => {
+    if (gateId === "" || location === "") {
+      toast.warn("Fields are empty");
+      return;
+    }
     try {
       const response = await registerGate({ name: gateId, location: location });
-      if (response.data.success) {
+      console.log('gate', response);
+      if (response.status === 200) {
         toast.success("Gate registration successfull");
+        setGateId("");
+        setLocation("");
       } else {
         toast.error("Gate registration failed");
       }
@@ -30,7 +37,7 @@ const GateRegistration = () => {
           Gate Registration
         </Typography>
         <StyledInputField>
-          <StyledLabel variant="body1">Gate ID</StyledLabel>
+          <StyledLabel variant="body1">Gate Name</StyledLabel>
           <StyledTextField variant="outlined" value={gateId}  onChange={(e) => setGateId(e.target.value)}/>
         </StyledInputField>
         <StyledInputField>

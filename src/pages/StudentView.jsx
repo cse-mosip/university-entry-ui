@@ -106,12 +106,13 @@ const StudentView = () => {
       <Box>
         <Box
           sx={{
-            marginX: "300px",
+            marginX: "200px",
             marginY: "20px",
             paddingX: "20px",
             paddingY: "10px",
             background: "#D9D9D9",
             borderRadius: "10px",
+            width: "60%"
           }}
         >
           <Grid container rowSpacing={2} columnSpacing={5}>
@@ -164,7 +165,7 @@ const StudentView = () => {
           </Grid>
         </Box>
 
-        <Box sx={{ width: "80%" }}>
+        <Box sx={{ width: "95%", height: "65%" }}>
           <DataGrid
             rows={filteredRows}
             columns={columns}

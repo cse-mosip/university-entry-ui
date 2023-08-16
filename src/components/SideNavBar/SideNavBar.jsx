@@ -31,6 +31,11 @@ export default function SideNavBar(props) {
       icon: <PersonIcon />,
       route: "/entry-management",
     },
+    {
+      text: "Gate Registration",
+      icon: <PersonIcon />,
+      route: "/gate-registration",
+    }
   ];
 
   const studentsItems = [
