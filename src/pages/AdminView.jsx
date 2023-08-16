@@ -47,7 +47,9 @@ function AdminView() {
       try {
         const response = await getDetails();
         console.log(response.data);
-        setRows(response.data.records);
+        const data = response.data.records;
+        const rowsWithIds = data.map((row, index) => ({ ...row, id: index }));
+        setRows(rowsWithIds);
       } catch (error) {
         setError(error);
       }
