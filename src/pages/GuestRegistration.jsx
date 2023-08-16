@@ -311,7 +311,7 @@ function GuestRegistration(props) {
                 >
                   Proceed
                 </Button>
-                <Button
+                {/* <Button
                   variant="contained"
                   sx={{
                     bgcolor: "#DC3545",
@@ -321,7 +321,7 @@ function GuestRegistration(props) {
                   }}
                 >
                   Cancel
-                </Button>
+                </Button> */}
               </StyledButtonBox>
             </StyledBox>
           </StyledRoot>

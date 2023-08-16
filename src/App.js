@@ -41,7 +41,7 @@ function App() {
   useEffect(() => {
     if(isInviteeActive) {
       setInviteeFPData(userFPData);
-    } else {
+    } else if (userData !== null) {
       autheticateFP();
     }
   }, [userFPData])
@@ -92,7 +92,7 @@ function App() {
         <StudentCard isOpen={isNotify} userData={userData} />
         <Routes>
           <Route element={<RouteAuthMiddleware role={"SECURITY"}><DeviceSetup /></RouteAuthMiddleware>} path="/gate-setup" />
-          <Route element={<RouteAuthMiddleware role={"SECURITY"}><GuestRegistration inviteeData={inviteeFPData} setInviteeActive={setIsInviteeActive} /></RouteAuthMiddleware>} path="guest-registration" />
+          <Route element={<RouteAuthMiddleware role={"SECURITY"}><GuestRegistration inviteeData={inviteeFPData} setInviteeActive={setIsInviteeActive}  requestFingerprint={requestFingerprint}/></RouteAuthMiddleware>} path="guest-registration" />
           <Route element={<RouteAuthMiddleware role={"ADMIN"}><AdminView /></RouteAuthMiddleware>} path="entry-management" />
           {/* <Route element={<RouteAuthMiddleware role={'ADMIN'}><StaffRegistration /></RouteAuthMiddleware>} path='staff-registration' /> */}
           <Route element={<RouteAuthMiddleware role={'STUDENT'}><StudentView /></RouteAuthMiddleware>} path='student-records' />
