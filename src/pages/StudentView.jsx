@@ -1,85 +1,94 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import StudentDateFilter from "../components/studentDateFilter";
 import SideNavBar from "../components/SideNavBar/StudentViewSideNav";
+import { getStudentRecords } from "../services/studentViewService";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const columns = [
   {
-    field: "gateNo",
-    headerName: "Gate No.",
+    field: "gate_name",
+    headerName: "Gate Name",
     flex: 90,
   },
   {
-    field: "in",
-    headerName: "IN",
-    flex: 140,
+    field: "timestamp",
+    headerName: "Timestamp",
+    flex: 80,
   },
   {
-    field: "out",
-    headerName: "OUT",
-    flex: 140,
+    field: "state",
+    headerName: "State",
+    flex: 80,
   },
 ];
 
-const rows = [
+const mockRows = [
   {
     id: 1,
-    gateNo: "1",
-    in: "09:20  12/07/2023",
-    out: "09:20  12/07/2023",
+    gate_name: "1",
+    timestamp: "09:20  12/07/2023",
+    state: "IN",
   },
   {
     id: 2,
-    gateNo: 2,
-    in: "10:20  10/07/2023",
-    out: "10:20  10/07/2023",
+    gate_name: "1",
+    timestamp: "09:20  12/07/2023",
+    state: "IN",
   },
   {
     id: 3,
-    gateNo: 1,
-    in: "10:20  10/07/2023",
-    out: "10:20  10/07/2023",
+    gate_name: "1",
+    timestamp: "09:20  12/07/2022",
+    state: "IN",
   },
   {
     id: 4,
-    gateNo: 3,
-    in: "10:20  10/07/2023",
-    out: "10:20  10/07/2023",
-  },
-  {
-    id: 5,
-    gateNo: 2,
-    in: "10:20  10/07/2023",
-    out: "10:20  10/07/2023",
-  },
-  {
-    id: 6,
-    gateNo: 1,
-    in: "10:20  10/07/2023",
-    out: "10:20  10/07/2023",
-  },
-  {
-    id: 7,
-    gateNo: 3,
-    in: "10:20  10/07/2023",
-    out: "10:20  10/07/2023",
-  },
-  {
-    id: 8,
-    gateNo: 2,
-    in: "10:20  10/07/2023",
-    out: "10:20  10/07/2023",
-  },
-  {
-    id: 9,
-    gateNo: 1,
-    in: "10:20  10/07/2023",
-    out: "10:20  10/07/2023",
-  },
+    gate_name: "1",
+    timestamp: "09:20  12/07/2021",
+    state: "IN",
+  }
 ];
 
 const StudentView = () => {
+  const [records, setRecords] = useState([]);
+  const [rows, setRows] = useState([]);
+  const [filteredRows, setFilteredRows] = useState([]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await getStudentRecords();
+        setRecords(response.records);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
+  useEffect(() => {
+    const rows = [];
+    let id = 1;
+    records.forEach((record) => {
+      rows.push({
+        id: id,
+        gate_name: record.gate_name,
+        timestamp: record.timestamp,
+        state: record.state,
+      });
+      id++;
+    });
+    setRows(rows);
+    setFilteredRows(rows);
+  }, [records]);
+
   return (
     <Box
       sx={{
@@ -89,19 +98,78 @@ const StudentView = () => {
     >
       <SideNavBar />
       <Box>
-        <StudentDateFilter />
-        <Box sx={{ width: "100%" }}>
+        <Box
+          sx={{
+            marginX: "300px",
+            marginY: "20px",
+            paddingX: "20px",
+            paddingY: "10px",
+            background: "#D9D9D9",
+            borderRadius: "10px",
+          }}
+        >
+          <Grid container rowSpacing={2} columnSpacing={5}>
+            <Grid item xs={10}>
+              <Box sx={{ fontWeight: "bolder", fontSize: "22px" }}>Date</Box>
+            </Grid>
+            <Grid item xs={2}>
+              <Box>
+                <Button
+                  size="small"
+                  variant="contained"
+                  sx={{ backgroundColor: "#4154F1", padding: "2px 10px" }}
+                  onClick={() => {
+                    const filteredRows = rows.filter((record) => {
+                      const recordTimestamp = new Date(record.timestamp);
+                      return (
+                        (!startDate || recordTimestamp >= startDate) &&
+                        (!endDate || recordTimestamp <= endDate)
+                      );
+                    });
+                    setFilteredRows(filteredRows);
+                  }}
+                >
+                  Generate History
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={10}>
+              <Box sx={{ display: "flex", gap: "30px" }}>
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                  <Box sx={{ display: "flex", gap: "10px" }}>
+                    <div>From</div>
+                    <DatePicker
+                      slotProps={{ textField: { size: "small" } }}
+                      value={startDate}
+                      onChange={(newDate) => setStartDate(newDate)}
+                    />
+                  </Box>
+                  <Box sx={{ display: "flex", gap: "10px" }}>
+                    <div>To</div>
+                    <DatePicker
+                      slotProps={{ textField: { size: "small" } }}
+                      value={endDate}
+                      onChange={(newDate) => setEndDate(newDate)}
+                    />
+                  </Box>
+                </LocalizationProvider>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+
+        <Box sx={{ width: "80%" }}>
           <DataGrid
-            rows={rows}
+            rows={filteredRows}
             columns={columns}
             initialState={{
               pagination: {
                 paginationModel: {
-                  pageSize: 5,
+                  pageSize: 20,
                 },
               },
             }}
-            pageSizeOptions={[5]}
+            pageSizeOptions={[10]}
             checkboxSelection
             disableRowSelectionOnClick
           />
