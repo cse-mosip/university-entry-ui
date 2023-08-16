@@ -9,12 +9,11 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SideNavBar from "../components/SideNavBar/SideNavBar";
-import Modal from '@mui/material/Modal';
-import LoadingButton from '@mui/lab/LoadingButton';
-import SaveIcon from '@mui/icons-material/Save';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import CircularProgress from '@mui/material/CircularProgress';
-
+import Modal from "@mui/material/Modal";
+import LoadingButton from "@mui/lab/LoadingButton";
+import SaveIcon from "@mui/icons-material/Save";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import {
   StyledRoot,
@@ -47,21 +46,20 @@ const validationSchema = Yup.object({
 });
 
 const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #808080',
+  bgcolor: "background.paper",
+  border: "2px solid #808080",
   borderRadius: 5,
   boxShadow: 24,
   p: 8,
-  color: '#0170D6'
+  color: "#0170D6",
 };
 
 function GuestRegistration(props) {
-
   const navigate = useNavigate();
   const [modalView, setModalView] = useState(false);
   const [fingerPrintData, setFingerPrintData] = useState(null);
@@ -74,7 +72,7 @@ function GuestRegistration(props) {
   useEffect(() => {
     setIsInviteeUpdate(true);
     setFingerPrintData(inviteeData);
-  }, [inviteeData])
+  }, [inviteeData]);
 
   const guestFormik = useFormik({
     initialValues: {
@@ -90,7 +88,8 @@ function GuestRegistration(props) {
       approver_id: "1",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values, { resetForm }) => {  // TODO: include fingerprint data to the endpoint data
+    onSubmit: async (values, { resetForm }) => {
+      // TODO: include fingerprint data to the endpoint data
       setSubmitLoading(true);
       values.bio_sign = fingerPrintData;
       try {
@@ -135,7 +134,7 @@ function GuestRegistration(props) {
       setModalView(false);
       setInviteeActive(false);
       setIsInviteeUpdate(false);
-    }
+    },
   });
 
   const handleTitleChange = (event) => {
@@ -152,18 +151,16 @@ function GuestRegistration(props) {
     setModalView(!modalView);
     requestFingerprint();
   }
-
   const handleModalCancel = () => {
     setModalView(false);
     setInviteeActive(false);
     setIsInviteeUpdate(false);
-  }
+  };
 
   return (
     <>
-
       <div style={{ display: "flex", height: "100%" }}>
-        <SideNavBar />
+        <SideNavBar role={"SECURITY"} />
         <Box
           sx={{
             padding: "10px",
@@ -245,7 +242,7 @@ function GuestRegistration(props) {
                     onBlur={guestFormik.handleBlur}
                     error={Boolean(
                       guestFormik.touched.phone_number &&
-                      guestFormik.errors.phone_number
+                        guestFormik.errors.phone_number
                     )}
                     helperText={
                       guestFormik.touched.phone_number &&
@@ -270,7 +267,9 @@ function GuestRegistration(props) {
                     error={Boolean(
                       guestFormik.touched.nic && guestFormik.errors.nic
                     )}
-                    helperText={guestFormik.touched.nic && guestFormik.errors.nic}
+                    helperText={
+                      guestFormik.touched.nic && guestFormik.errors.nic
+                    }
                   />
                 </Grid>
 
@@ -335,32 +334,58 @@ function GuestRegistration(props) {
         sx={{ backgroundColor: "rgba(128, 128, 128, 0.8)" }}
       >
         <Box sx={modalStyle}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography
+              id="modal-modal-title"
+              variant="h5"
+              component="h2"
+              sx={{ fontWeight: "bold", textAlign: "center" }}
+            >
               Please take the Invitee's fingerprint
             </Typography>
             <img
-              src={'/images/fp_3.png'}
+              src={"/images/fp_3.png"}
               alt="fingerprint image"
               style={{ margin: "10%", alignItems: "center" }}
             />
           </Box>
-          <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 5 }}>
-          {!isInviteeUpdate && <CircularProgress/>}
-          {isInviteeUpdate && inviteeData !== null &&
-            <Typography variant="h5" component="h2" sx={{ color: 'green', gap: 1 }}>
-              <CheckCircleOutlineIcon color="success" fontSize="large" />
-              Successfull
-          </Typography>
-          }
-          { isInviteeUpdate && inviteeData === null &&
-            <Typography variant="h5" component="h2" sx={{ color: 'red', gap: 1 }}>
-              <CheckCircleOutlineIcon color="error" fontSize="large" />
-              Failed
-            </Typography>
-          }
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 5,
+            }}
+          >
+            {!isInviteeUpdate && <CircularProgress />}
+            {isInviteeUpdate && inviteeData !== null && (
+              <Typography
+                variant="h5"
+                component="h2"
+                sx={{ color: "green", gap: 1 }}
+              >
+                <CheckCircleOutlineIcon color="success" fontSize="large" />
+                Successfull
+              </Typography>
+            )}
+            {isInviteeUpdate && inviteeData === null && (
+              <Typography
+                variant="h5"
+                component="h2"
+                sx={{ color: "red", gap: 1 }}
+              >
+                <CheckCircleOutlineIcon color="error" fontSize="large" />
+                Failed
+              </Typography>
+            )}
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+          <Box sx={{ display: "flex", justifyContent: "space-around" }}>
             <Button
               variant="contained"
               onClick={handleModalCancel}

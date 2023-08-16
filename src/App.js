@@ -17,6 +17,7 @@ import { io } from "socket.io-client";
 import { authenticateFingerprint } from "./services/authServices";
 
 
+
 function App() {
 
 
@@ -90,13 +91,14 @@ function App() {
       <TopBar requestFingerprint={requestFingerprint} />
         <StudentCard isOpen={isNotify} userData={userData} />
         <Routes>
-          <Route element={<DeviceSetup />} path="/gate-setup" />
-          <Route element={<RouteAuthMiddleware role={"role"}><GuestRegistration inviteeData={inviteeFPData} setInviteeActive={setIsInviteeActive} requestFingerprint={requestFingerprint} /></RouteAuthMiddleware>} path="guest-registration" />
-          <Route element={<RouteAuthMiddleware role={"role"}><AdminView /></RouteAuthMiddleware>} path="entry-management" />
-          <Route element={<RouteAuthMiddleware role={'role'}><StaffRegistration /></RouteAuthMiddleware>} path='staff-registration' />
-          <Route element={<RouteAuthMiddleware role={'role'}><StudentView /></RouteAuthMiddleware>} path='student-records' />
-          <Route element={<GateRegistration />} path='/gate-registration' />
-          <Route element={<Home />} path="/home" />
+          <Route element={<RouteAuthMiddleware role={"SECURITY"}><DeviceSetup /></RouteAuthMiddleware>} path="/gate-setup" />
+          <Route element={<RouteAuthMiddleware role={"SECURITY"}><GuestRegistration inviteeData={inviteeFPData} setInviteeActive={setIsInviteeActive} /></RouteAuthMiddleware>} path="guest-registration" />
+          <Route element={<RouteAuthMiddleware role={"ADMIN"}><AdminView /></RouteAuthMiddleware>} path="entry-management" />
+          {/* <Route element={<RouteAuthMiddleware role={'ADMIN'}><StaffRegistration /></RouteAuthMiddleware>} path='staff-registration' /> */}
+          <Route element={<RouteAuthMiddleware role={'STUDENT'}><StudentView /></RouteAuthMiddleware>} path='student-records' />
+          <Route element={<RouteAuthMiddleware role={"ADMIN"}><GateRegistration /></RouteAuthMiddleware>} path='/gate-registration' />
+          {/* <Route element={<StudentCard isOpen={true} />} path="/stu" /> */}
+          <Route element={<Home/>} path="/home" />
           <Route element={<Login />} path="/" />
         </Routes>
       </BrowserRouter>
